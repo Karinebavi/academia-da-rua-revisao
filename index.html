@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Revisão] Academia da Rua</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Desde 2013, a Academia da Rua usa o basquete de rua para levar esporte, cultura e oportunidade a jovens do Barreiro e da Grande BH.">
+<meta name="theme-color" content="#111111">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;700;800;900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Big+Shoulders+Stencil+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   ACADEMIA DA RUA · sistema visual
+   Estrutura inspirada no site NBA Basketball School,
+   cores e formas tiradas da logo (bola laranja, asfalto preto,
+   letreiro estêncil, moldura de cantos abertos).
+   ========================================================= */
+:root{
+  --ink:#111111;          /* cor dominante: preto da logo / asfalto */
+  --ink-2:#1b1b1b;
+  --ink-3:#262626;
+  --laranja:#E0601F;      /* bola de basquete · reservada às ações */
+  --laranja-2:#F07A35;
+  --laranja-txt:#A8410F;  /* laranja para texto em fundo claro (contraste AA) */
+  --areia:#F3EDE4;        /* tom claro quente do Guia (areia) */
+  --areia-2:#E8DFD2;
+  --terracota:#8F3E22;
+  --branco:#ffffff;
+  --cinza:#5b5b5b;
+  --r:18px;               /* cantos: logo mistura bola redonda + moldura reta */
+  --head:'Geologica',system-ui,sans-serif;
+  --stencil:'Big Shoulders Stencil Display','Geologica',sans-serif;
+  --body:'Atkinson Hyperlegible',system-ui,sans-serif;
+  --wrap:1240px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{overflow-x:clip}
+body{margin:0;font-family:var(--body);font-size:1.05rem;line-height:1.6;color:var(--ink);background:#fff;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:1;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:16px;top:-80px;z-index:999;background:var(--laranja);color:var(--ink);padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none;transition:top .2s}
+.skip:focus{top:12px}
+:focus-visible{outline:3px solid var(--laranja);outline-offset:3px;border-radius:6px}
+
+/* pendência visível: tudo que falta confirmar */
+.tbc{display:inline-block;font-family:var(--body);font-size:.72rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;border:1.5px dashed currentColor;border-radius:999px;padding:1px 9px;opacity:.8;vertical-align:middle;white-space:nowrap}
+
+/* ---------- moldura de cantos abertos (assinatura tirada da logo) ---------- */
+.frame{position:relative;display:inline-block;padding:.02em .18em .06em}
+.frame::before,.frame::after{content:"";position:absolute;inset:0;pointer-events:none;
+  --c:var(--laranja);--t:.075em;--l:.32em;
+  background:
+   linear-gradient(var(--c),var(--c)) top left/var(--l) var(--t),
+   linear-gradient(var(--c),var(--c)) top left/var(--t) var(--l),
+   linear-gradient(var(--c),var(--c)) bottom right/var(--l) var(--t),
+   linear-gradient(var(--c),var(--c)) bottom right/var(--t) var(--l);
+  background-repeat:no-repeat;transition:transform .7s var(--ease)}
+.frame::after{background:
+   linear-gradient(var(--c),var(--c)) top right/var(--l) var(--t),
+   linear-gradient(var(--c),var(--c)) top right/var(--t) var(--l),
+   linear-gradient(var(--c),var(--c)) bottom left/var(--l) var(--t),
+   linear-gradient(var(--c),var(--c)) bottom left/var(--t) var(--l);background-repeat:no-repeat}
+.rv .frame::before{transform:translate(-.25em,-.2em)}
+.rv .frame::after{transform:translate(.25em,-.2em)}
+.rv.in .frame::before,.rv.in .frame::after{transform:none}
+
+/* ---------- títulos no padrão NBA: sobretítulo + título grande + linha ---------- */
+.eyebrow{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.85rem;letter-spacing:.06em;color:var(--laranja-txt);margin-bottom:10px;display:block}
+.dark .eyebrow{color:var(--laranja-2)}
+.title{display:flex;align-items:center;gap:28px;font-size:clamp(2.3rem,5vw,3.6rem);margin-bottom:28px}
+.title .tt{flex:0 1 auto}
+.title::after{content:"";flex:1;height:3px;background:var(--laranja);min-width:40px;border-radius:2px}
+.title.right{flex-direction:row-reverse;text-align:right}
+.title.center{justify-content:center}
+.title.center::after{display:none}
+.lead{font-size:1.25rem;line-height:1.55;max-width:60ch}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font-family:var(--head);font-weight:800;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .2s var(--ease),background .2s,color .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-orange{background:var(--laranja);color:var(--ink)}
+.btn-orange:hover{background:var(--laranja-2);box-shadow:0 10px 24px -10px rgba(224,96,31,.8)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--ink-3)}
+.btn-ghost{border-color:currentColor;color:inherit;background:transparent}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn svg{width:18px;height:18px}
+
+/* =================== TOPO =================== */
+.topbar{background:var(--laranja);color:var(--ink);font-family:var(--head);font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.topbar .wrap{display:flex;justify-content:flex-end;gap:28px;min-height:34px;align-items:center}
+.topbar a{text-decoration:none;padding:6px 0}
+.topbar a:hover{text-decoration:underline;text-underline-offset:3px}
+header.site{position:sticky;top:0;z-index:60;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.08);transition:box-shadow .3s}
+header.site.scrolled{box-shadow:0 8px 30px -12px rgba(0,0,0,.25)}
+header.site .wrap{display:flex;align-items:center;justify-content:flex-end;min-height:76px;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .ball{width:40px;height:40px;flex:none}
+.brand .logo{height:72px;width:auto;transition:transform .3s var(--ease)}
+.brand:hover .logo{transform:rotate(-3deg) scale(1.04)}
+.brand .logo-ft{height:110px}
+header.site.scrolled .brand .logo{height:54px}
+.wordmark{position:relative;font-family:var(--stencil);font-weight:900;text-transform:uppercase;line-height:.86;font-size:1.32rem;letter-spacing:.03em;padding:5px 9px}
+.wordmark small{display:block;font-family:var(--body);font-weight:700;font-size:.5rem;letter-spacing:.12em;margin-top:4px;line-height:1.1}
+.wordmark .frame{position:absolute;inset:0;padding:0}
+.wordmark .frame::before,.wordmark .frame::after{--c:var(--ink);--t:2px;--l:10px}
+nav.main ul{list-style:none;margin:0;padding:0;display:flex;gap:4px;align-items:center}
+nav.main a{display:flex;align-items:center;min-height:48px;padding:0 12px;font-family:var(--head);font-weight:800;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;position:relative}
+nav.main a:not(.btn)::after{content:"";position:absolute;left:12px;right:12px;bottom:10px;height:3px;background:var(--laranja);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+nav.main a:not(.btn):hover::after,nav.main a.active::after{transform:scaleX(1)}
+nav.main .btn{margin-left:8px;min-height:44px}
+.ig{width:44px;height:44px;display:grid;place-items:center;border-radius:50%}
+.ig svg{width:22px;height:22px}
+.burger{display:none;width:48px;height:48px;border:0;background:var(--ink);color:#fff;border-radius:12px;cursor:pointer}
+.burger svg{width:24px;height:24px;margin:auto}
+@media (max-width:1180px){
+  .burger{display:grid;place-items:center}
+  nav.main{position:fixed;inset:76px 0 auto 0;background:#fff;max-height:calc(100vh - 76px);overflow:auto;transform:translateY(-12px);opacity:0;visibility:hidden;transition:.25s var(--ease);box-shadow:0 30px 40px -20px rgba(0,0,0,.3)}
+  nav.main.open{transform:none;opacity:1;visibility:visible}
+  nav.main ul{flex-direction:column;align-items:stretch;padding:12px 24px 24px}
+  nav.main a{min-height:52px;font-size:.95rem;border-bottom:1px solid #eee}
+  nav.main a:not(.btn)::after{display:none}
+  nav.main .btn{margin:14px 0 0}
+  .topbar .wrap{justify-content:center;gap:16px}
+}
+@media (max-width:640px){.topbar a.hide-sm{display:none}}
+
+/* =================== HERO (arena → asfalto) =================== */
+.hero{position:relative;background-color:#A9A59E;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.35'/></svg>");color:var(--ink);overflow:hidden;padding:48px 0 0}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(1200px 500px at 70% -10%,rgba(224,96,31,.28),transparent 60%),
+  radial-gradient(900px 600px at 0% 100%,rgba(255,255,255,.05),transparent 60%);pointer-events:none}
+.court{position:absolute;inset:0;opacity:1;pointer-events:none}
+.court svg{width:100%;height:100%}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;min-height:440px;padding-bottom:130px}
+.hero-kicker{display:flex;align-items:center;gap:14px;font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:1.05rem}
+.hero-kicker .line{flex:1;height:2px;background:var(--laranja);max-width:240px}
+.bounce-ball{width:34px;height:34px;flex:none}
+.hero-titles{position:relative;display:grid;font-size:clamp(3rem,7.4vw,6rem);margin:18px 0 22px}
+.hero-titles h1,.hero-titles .h1{grid-area:1/1;margin:0;font-size:1em;line-height:.95;opacity:0;transform:translate(-30px,16px);transition:opacity .6s,transform .9s var(--ease)}
+.hero-titles .on{opacity:1;transform:none}
+.hero-titles em{font-style:normal;color:var(--laranja)}
+.hero p.sub{font-size:1.2rem;max-width:44ch;color:#e9e9e9}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero-media{position:relative;height:440px}
+.hero-media .big,.hero-media .small{position:absolute;border-radius:var(--r);overflow:hidden;box-shadow:0 30px 50px -24px rgba(0,0,0,.35)}
+.hero-media .big{inset:0 0 40px 60px}
+.hero-media .small{left:0;bottom:0;width:38%;aspect-ratio:3/4;border:5px solid #A9A59E;z-index:2}
+.hero-media figure{margin:0;position:absolute;inset:0;opacity:0;transition:opacity 1s}
+.hero-media figure.on{opacity:1}
+.hero-media figure img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 7s linear}
+.hero-media figure.on img{transform:scale(1)}
+.dots{display:flex;gap:10px;margin-top:30px}
+.dots button{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
+.dots button span{width:28px;height:5px;border-radius:4px;background:rgba(17,17,17,.2);transition:.3s}
+.dots button[aria-current="true"] span{background:var(--laranja);width:44px}
+/* 3 cartões altos (como "Quero ser aluno/treinador/licenciado") */
+.cta-cards{position:relative;display:grid;grid-template-columns:1fr;gap:22px;margin-top:64px;padding-bottom:120px}
+.cta-card{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:21/8;text-decoration:none;color:#fff;isolation:isolate}
+.cta-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s var(--ease)}
+.cta-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,0) 35%,rgba(17,17,17,.92) 100%)}
+.cta-card:hover img{transform:scale(1.06)}
+.cta-card .in{position:absolute;left:24px;right:24px;bottom:24px}
+.cta-card h3{font-size:clamp(1.6rem,2.6vw,2.3rem);line-height:.95}
+.cta-card .go{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--laranja-2)}
+.cta-card .go svg{width:18px;height:18px;transition:transform .25s}
+.cta-card:hover .go svg{transform:translateX(5px)}
+.cta-card .tag{position:absolute;top:18px;left:18px;background:var(--laranja);color:var(--ink);font-family:var(--head);font-weight:800;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+
+/* =================== NÚMEROS (painel laranja sobreposto) =================== */
+.stats-wrap{position:relative;margin-top:-80px;z-index:3}
+.stats{background:var(--laranja);color:var(--ink);border-radius:28px;padding:40px 32px 44px;box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
+.stats h2{text-align:center;font-size:clamp(1.4rem,2.6vw,2.1rem);margin-bottom:26px}
+.stats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stats li{text-align:center}
+.stats .num{font-family:var(--stencil);font-weight:900;font-size:clamp(2.8rem,5.4vw,4.6rem);line-height:1}
+.stats .lab{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.85rem;letter-spacing:.03em;margin-top:6px;line-height:1.2}
+
+/* =================== QUEM SOMOS =================== */
+section{position:relative}
+.sec{padding:110px 0}
+.sec.sand{background:var(--areia)}
+.dark{background:var(--ink);color:#fff}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about .photo{position:relative}
+.about .photo img{border-radius:var(--r);width:100%;aspect-ratio:4/3;object-fit:cover}
+.about .photo .deco{position:absolute;width:150px;right:-50px;top:-60px;z-index:-1;opacity:.95}
+.about .photo .deco2{position:absolute;width:90px;left:-40px;bottom:-36px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.sec.about-sec{overflow:hidden}
+
+/* manifesto */
+.manifesto{padding:96px 0;background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.manifesto blockquote{margin:0;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(1.7rem,3.6vw,3rem);line-height:1.08;max-width:24ch}
+.manifesto blockquote span{color:var(--laranja)}
+.manifesto .quote2{margin-top:36px;display:flex;gap:18px;align-items:flex-start;max-width:62ch;color:#ddd;font-size:1.15rem}
+.manifesto .quote2 b{font-family:var(--stencil);font-size:4rem;line-height:.7;color:var(--laranja)}
+.manifesto .graf{position:absolute;right:-60px;bottom:-60px;width:440px;opacity:.12}
+
+/* =================== HISTÓRIA (linha do tempo) =================== */
+.timeline{margin-top:10px}
+.tl-years{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 18px;scrollbar-width:thin;position:relative}
+.tl-years::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--areia-2);transform:translateY(-12px)}
+.tl-years button{position:relative;flex:1;min-width:96px;min-height:56px;border:0;background:transparent;cursor:pointer;font-family:var(--stencil);font-weight:900;font-size:1.9rem;color:#9a9086;transition:color .2s}
+.tl-years button::after{content:"";display:block;width:14px;height:14px;border-radius:50%;background:var(--areia-2);margin:8px auto 0;transition:.25s}
+.tl-years button[aria-selected="true"]{color:var(--ink)}
+.tl-years button[aria-selected="true"]::after{background:var(--laranja);transform:scale(1.5)}
+.tl-panel{display:grid;grid-template-columns:200px 1fr;gap:34px;background:#fff;border-radius:var(--r);padding:38px;box-shadow:0 20px 50px -30px rgba(0,0,0,.25);min-height:220px}
+.tl-panel .yr{font-family:var(--stencil);font-weight:900;font-size:5rem;line-height:.85;color:var(--laranja)}
+.tl-panel h3{font-size:1.7rem;margin-bottom:12px}
+.tl-panel p{max-width:62ch;margin:0}
+.tl-panel[hidden]{display:none}
+.tl-panel.anim{animation:slideIn .55s var(--ease)}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.founders{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+.founder{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px;position:relative;overflow:hidden}
+.founder q{display:block;font-family:var(--head);font-weight:700;font-size:1.25rem;line-height:1.3;quotes:"“" "”"}
+.founder .who{margin-top:18px;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.8rem;letter-spacing:.06em;color:var(--laranja-2)}
+.founder .who span{display:block;color:#bbb;font-family:var(--body);font-weight:400;text-transform:none;letter-spacing:0;font-size:.95rem;margin-top:4px}
+
+/* =================== REFERENCIAL (tiles como "Metodologia") =================== */
+.mv{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+.mv article{background:#fff;border-radius:var(--r);padding:34px;border-left:8px solid var(--laranja)}
+.mv h3{font-size:1.5rem;margin-bottom:6px}
+.mv .k{font-family:var(--head);font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--laranja-txt)}
+.mv p{font-size:1.15rem;margin:10px 0 0}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.tile{background:var(--ink);color:#fff;border-radius:var(--r);padding:34px 22px;text-align:center;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:transform .35s var(--ease),background .3s}
+.tile svg{width:56px;height:56px;color:var(--laranja);transition:color .3s,transform .4s var(--ease)}
+.tile h3{font-size:1.05rem;letter-spacing:.02em}
+.tile:hover{transform:translateY(-6px) rotate(-1deg);background:var(--laranja);color:var(--ink)}
+.tile:hover svg{color:var(--ink);transform:scale(1.1)}
+.court-bg{position:absolute;inset:0;opacity:.06;pointer-events:none;overflow:hidden}
+.court-bg svg{width:100%;height:100%}
+.ball-deco{position:absolute;width:190px;right:-70px;top:60px;opacity:.95;pointer-events:none}
+
+/* =================== O QUE FAZEMOS (mosaico como "Licenciamento") =================== */
+.mosaic{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:250px;gap:20px}
+.mtile{position:relative;border-radius:var(--r);overflow:hidden;color:#fff;isolation:isolate;display:flex;align-items:flex-end;padding:26px}
+.mtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .9s var(--ease)}
+.mtile::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,.15),rgba(17,17,17,.85));transition:background .4s}
+.mtile:hover img{transform:scale(1.07)}
+.mtile:hover::before{background:linear-gradient(180deg,rgba(17,17,17,.45),rgba(17,17,17,.94))}
+.mtile h3{font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:.95;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.mtile p{margin:10px 0 0;font-size:1rem;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s}
+.mtile:hover p,.mtile:focus-within p{max-height:200px;opacity:1}
+.mtile .chip{position:absolute;top:18px;left:18px;font-family:var(--head);font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;background:var(--laranja);color:var(--ink);padding:6px 12px;border-radius:999px}
+.mtile.tall{grid-row:span 2}
+.mtile.quote{padding:34px;background:var(--laranja);color:var(--ink);align-items:center}
+.mtile.quote::before{display:none}
+.mtile.quote q{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(1.3rem,2vw,1.75rem);line-height:1.08;quotes:"“" "”"}
+.mtile.quote small{display:block;margin-top:14px;font-weight:700}
+.intro-row{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;margin-bottom:34px}
+.intro-row p{max-width:56ch;margin:0}
+@media (hover:none){.mtile p{max-height:none;opacity:1}}
+
+/* =================== PROJETOS =================== */
+.projects{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.project{background:#fff;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 50px -32px rgba(0,0,0,.35)}
+.project .cover{position:relative;height:230px}
+.project .cover img{width:100%;height:100%;object-fit:cover}
+.status{position:absolute;top:16px;left:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--ink);font-family:var(--head);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding:8px 14px;border-radius:999px}
+.status::before{content:"";width:9px;height:9px;border-radius:50%;background:#1f9d55;box-shadow:0 0 0 0 rgba(31,157,85,.6);animation:pulse 2s infinite}
+.status.tbc-s::before{background:#b9a99a;animation:none}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(31,157,85,0)}100%{box-shadow:0 0 0 0 rgba(31,157,85,0)}}
+.project .body{padding:30px;display:flex;flex-direction:column;flex:1}
+.project h3{font-size:1.8rem;margin-bottom:6px}
+.project .law{font-family:var(--head);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--laranja-txt);margin-bottom:14px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin:20px 0 26px;padding:20px 0;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.facts dt{font-family:var(--head);font-weight:800;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--cinza)}
+.facts dd{margin:2px 0 0;font-weight:700;line-height:1.35}
+.facts .big{font-family:var(--stencil);font-weight:900;font-size:1.9rem;line-height:1}
+.project .btn{align-self:flex-start;margin-top:auto}
+.proj-sum{margin:4px 0 0;color:#3a3a3a;font-size:1.02rem}
+.next{margin-top:46px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:n}
+.next li{list-style:none;background:var(--ink);color:#fff;border-radius:14px;padding:22px 18px;font-weight:700;line-height:1.3;counter-increment:n;position:relative}
+.next li::before{content:counter(n,decimal-leading-zero);display:block;font-family:var(--stencil);font-weight:900;font-size:2.2rem;color:var(--laranja);line-height:1;margin-bottom:10px}
+.next li:first-child{background:var(--laranja);color:var(--ink)}
+.next li:first-child::before{color:var(--ink)}
+
+/* =================== PATROCINE =================== */
+.sponsor{display:grid;grid-template-columns:1.1fr 1fr;gap:40px}
+.steps{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px}
+.steps li{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start;background:var(--ink-2);border-radius:14px;padding:18px}
+.steps b{font-family:var(--stencil);font-size:2.4rem;line-height:1;color:var(--laranja)}
+.steps h3{font-size:1.05rem;margin-bottom:4px}
+.steps p{margin:0;color:#d4d4d4}
+.cotas{background:var(--areia);color:var(--ink);border-radius:22px;padding:32px}
+.cotas h3{font-size:1.4rem;margin-bottom:6px}
+.cota{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:16px 0;border-bottom:1px solid var(--areia-2)}
+.cota:last-of-type{border-bottom:0}
+.cota strong{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:1.05rem}
+.cota span{display:block;color:var(--cinza);font-size:.92rem}
+.cota em{font-style:normal;font-family:var(--stencil);font-weight:900;font-size:1.8rem}
+.pix{margin-top:26px;background:var(--ink);color:#fff;border-radius:16px;padding:22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.pix code{font-family:var(--stencil);font-size:1.6rem;font-weight:800;letter-spacing:.02em}
+.pix small{display:block;color:#bbb}
+
+/* =================== EVENTOS (carrossel escuro) =================== */
+.events{position:relative;overflow:hidden}
+.ev-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 44px)/3);gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:8px;scrollbar-width:none}
+.ev-track::-webkit-scrollbar{display:none}
+.ev{scroll-snap-align:start;position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;color:#fff;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;text-align:center}
+.ev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .9s var(--ease)}
+.ev:hover img{transform:scale(1.06)}
+.ev::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,0) 30%,rgba(17,17,17,.95))}
+.ev .date{position:absolute;top:18px;left:18px;background:var(--laranja);color:var(--ink);font-family:var(--head);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding:7px 12px;border-radius:999px}
+.ev h3{font-size:1.5rem;margin-bottom:8px}
+.ev .where{font-family:var(--head);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--laranja-2);margin-bottom:8px}
+.ev p{margin:0;color:#e3e3e3;font-size:.98rem}
+.ev-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px}
+.ev-nav .arrow{width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center}
+.ev-nav .arrow:hover{background:var(--laranja);border-color:var(--laranja);color:var(--ink)}
+.ev-nav .arrow svg{width:20px;height:20px}
+.ev-dots{display:flex;gap:4px}
+.ev-dots button{width:24px;height:44px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.ev-dots button span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);transition:.25s}
+.ev-dots button[aria-current="true"] span{background:var(--laranja);transform:scale(1.4)}
+.media{margin-top:56px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;color:#ccc}
+.media b{font-family:var(--head);text-transform:uppercase;font-size:.8rem;letter-spacing:.06em;color:#fff;margin-right:6px}
+.media a,.media span.m{border:1.5px solid rgba(255,255,255,.25);border-radius:999px;padding:10px 16px;text-decoration:none;font-weight:700;font-size:.92rem}
+.media a:hover{border-color:var(--laranja);color:var(--laranja-2)}
+
+/* =================== GALERIA (faixa deslizando) =================== */
+.strip{overflow:hidden;padding:30px 0 50px}
+.strip-track{display:flex;gap:22px;width:max-content;animation:strip 70s linear infinite alternate}
+.strip:hover .strip-track{animation-play-state:paused}
+@keyframes strip{to{transform:translateX(calc(-100% + 100vw))}}
+.shot{flex:none;border:0;padding:0;background:#fff;padding:8px 8px 8px;border-radius:12px;cursor:zoom-in;box-shadow:0 18px 30px -18px rgba(0,0,0,.4);transform:rotate(var(--rot,0deg));transition:transform .4s var(--ease)}
+.shot:nth-child(odd){--rot:-2deg}.shot:nth-child(3n){--rot:2.5deg}.shot:nth-child(4n){--rot:-1deg}
+.shot:hover,.shot:focus-visible{transform:rotate(0) translateY(-6px)}
+.shot img{height:300px;width:auto;border-radius:6px;object-fit:cover}
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(10,10,10,.94);display:none;align-items:center;justify-content:center;padding:30px}
+.lightbox.open{display:flex}
+.lightbox img{max-height:86vh;max-width:92vw;border-radius:10px}
+.lightbox button{position:absolute;width:52px;height:52px;border-radius:50%;border:0;background:var(--laranja);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.lightbox .x{top:20px;right:20px}.lightbox .pv{left:20px;top:50%}.lightbox .nx{right:20px;top:50%}
+.lightbox svg{width:22px;height:22px}
+
+/* =================== ONDE ATUAMOS + PARCEIROS =================== */
+.places{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.place{border-radius:var(--r);padding:30px;background:#fff;border:2px solid var(--areia-2);position:relative;overflow:hidden}
+.place .pin{width:44px;height:44px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;margin-bottom:18px}
+.place .pin svg{width:22px;height:22px}
+.place h3{font-size:1.25rem;margin-bottom:8px}
+.place p{margin:0;color:var(--cinza)}
+.partners{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px}
+.partner{min-height:130px;border-radius:16px;background:#fff;border:2px solid var(--areia-2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;gap:8px}
+.partner strong{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.95rem;line-height:1.15}
+.partner span{font-size:.85rem;color:var(--cinza)}
+.partner.empty{border-style:dashed;background:transparent;text-decoration:none}
+.partner.empty strong{color:var(--laranja-txt)}
+.partner.empty:hover{border-color:var(--laranja)}
+
+/* =================== TRANSPARÊNCIA =================== */
+.docs{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.doc{background:#fff;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;border:2px solid transparent;transition:border-color .2s,transform .3s var(--ease)}
+.doc:hover{border-color:var(--laranja);transform:translateY(-4px)}
+.doc .ico{width:46px;height:46px;border-radius:12px;background:var(--ink);color:var(--laranja);display:grid;place-items:center}
+.doc .ico svg{width:24px;height:24px}
+.doc h3{font-size:1rem;line-height:1.15}
+.doc p{margin:0;font-size:.92rem;color:var(--cinza)}
+.doc .meta{margin-top:auto;font-family:var(--head);font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--laranja-txt)}
+.gov{margin-top:40px;display:grid;grid-template-columns:1fr 1.3fr;gap:30px;align-items:start}
+.gov table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}
+.gov th,.gov td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--areia-2)}
+.gov th{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;background:var(--ink);color:#fff}
+.inst dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 18px}
+.inst dt{font-family:var(--head);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--cinza);padding-top:3px}
+.inst dd{margin:0;font-weight:700}
+
+/* =================== DÚVIDAS =================== */
+.faq{max-width:900px;margin:0 auto}
+.faq details{background:#fff;border-radius:14px;margin-bottom:12px;border:2px solid transparent;transition:border-color .2s}
+.faq details[open]{border-color:var(--laranja)}
+.faq summary{list-style:none;cursor:pointer;min-height:64px;padding:18px 64px 18px 24px;font-family:var(--head);font-weight:800;font-size:1.05rem;text-transform:uppercase;position:relative;display:flex;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:20px;top:50%;width:32px;height:32px;margin-top:-16px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:1.3rem;transition:transform .3s,background .2s}
+.faq details[open] summary::after{transform:rotate(45deg);background:var(--laranja);color:var(--ink)}
+.faq details p{padding:0 24px 22px;margin:0}
+
+/* =================== CONTATO =================== */
+.contact-hero{position:relative;color:#fff;text-align:center;padding:130px 0 120px;overflow:hidden;isolation:isolate}
+.contact-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.contact-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,.55),rgba(17,17,17,.85))}
+.contact-hero h2{font-size:clamp(3rem,9vw,7.2rem);line-height:.9}
+.contact-hero p{font-size:1.2rem;margin:22px auto 30px;max-width:48ch}
+.contact{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;margin-top:-70px;position:relative;z-index:2}
+form.card,.info{background:#fff;border-radius:22px;padding:34px;box-shadow:0 30px 60px -30px rgba(0,0,0,.35)}
+.info{background:var(--ink);color:#fff}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-family:var(--head);font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.contact>*,.row2>*,.about>*,.sponsor>*,.gov>*,.hero-grid>*{min-width:0}
+.field input,.field select,.field textarea{width:100%;font:inherit;min-height:50px;padding:12px 16px;border-radius:12px;border:2px solid #d9d2c8;background:#fff;color:var(--ink)}
+.field textarea{min-height:130px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--laranja);outline:none;box-shadow:0 0 0 4px rgba(224,96,31,.2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.check{display:flex;gap:10px;align-items:center;margin:4px 0 18px;min-height:44px}
+.check input{width:22px;height:22px;accent-color:var(--laranja)}
+.hp{position:absolute;left:-9999px}
+.form-msg{margin-top:14px;font-weight:700;min-height:1.6em}
+.info h3{font-size:1.4rem;margin-bottom:20px}
+.info ul{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.info li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.info .i{width:44px;height:44px;border-radius:12px;background:var(--ink-3);color:var(--laranja);display:grid;place-items:center}
+.info .i svg{width:22px;height:22px}
+.info small{display:block;color:#aaa;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.68rem;letter-spacing:.06em}
+.info a{text-decoration:none;font-weight:700}
+.info a:hover{color:var(--laranja-2)}
+.wa-list{display:grid;gap:10px;margin-top:26px}
+.wa-list a{display:flex;justify-content:space-between;align-items:center;min-height:50px;padding:0 18px;border-radius:12px;background:var(--ink-3);text-decoration:none;font-weight:700}
+.wa-list a:hover{background:var(--laranja);color:var(--ink)}
+
+/* =================== RODAPÉ =================== */
+footer{background:var(--ink);color:#d8d8d8;padding:90px 0 0;margin-top:0;position:relative}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px;padding-bottom:50px}
+footer h4{color:#fff;font-size:.85rem;letter-spacing:.06em;margin-bottom:16px}
+footer ul{list-style:none;padding:0;margin:0;display:grid;gap:4px}
+footer a{text-decoration:none;display:inline-flex;min-height:36px;align-items:center}
+footer a:hover{color:var(--laranja-2)}
+footer .brand{color:#fff;margin-bottom:18px}
+footer .wordmark .frame::before,footer .wordmark .frame::after{--c:#fff}
+footer .legal{border-top:1px solid #2c2c2c;padding:22px 0;font-size:.9rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:#a8a8a8}
+
+
+/* chamada de patrocínio dentro de Projetos */
+.callout{margin-top:60px;background:var(--ink);color:#fff;border-radius:26px;padding:48px;position:relative;overflow:hidden;scroll-margin-top:100px}
+.callout::after{content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(224,96,31,.35),transparent 70%)}
+.callout .eyebrow{color:var(--laranja-2)}
+.callout h3{font-size:clamp(1.8rem,3.4vw,2.8rem);margin-bottom:16px;max-width:20ch}
+.callout-head p{color:#e3e3e3;max-width:70ch;font-size:1.1rem}
+.pct{display:flex;flex-wrap:wrap;gap:16px;margin-top:22px}
+.pct>div{display:flex;align-items:center;gap:14px;background:var(--laranja);color:var(--ink);border-radius:16px;padding:14px 22px}
+.pct b{font-family:var(--stencil);font-weight:900;font-size:2.8rem;line-height:1}
+.pct span{font-weight:700;font-size:.92rem;line-height:1.25}
+.steps-row{list-style:none;padding:0;margin:30px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.steps-row li{background:var(--ink-2);border:1px solid #2c2c2c;border-radius:16px;padding:22px}
+.steps-row b{font-family:var(--stencil);font-size:2.6rem;line-height:1;color:var(--laranja)}
+.steps-row h4{font-size:1.05rem;margin:8px 0 6px}
+.steps-row p{margin:0;color:#cfcfcf;font-size:.98rem}
+.callout-foot{margin-top:30px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1}
+.pix-inline{display:flex;flex-wrap:wrap;align-items:center;gap:12px;color:#ccc}
+.pix-inline code{font-family:var(--stencil);font-weight:800;font-size:1.4rem;color:#fff}
+.pix-inline .btn{color:#fff;min-height:44px}
+.docs.docs-3{grid-template-columns:repeat(3,1fr)}
+.gov{grid-template-columns:1fr}
+/* organograma operacional: árvore simples com linhas que se desenham */
+.org{margin-top:80px;text-align:center}
+.org-title{font-size:1.5rem;margin-bottom:40px}
+.og{--line:var(--laranja);max-width:1080px;margin:0 auto;position:relative}
+.og-node{background:#fff;border:1.5px solid var(--areia-2);border-radius:16px;padding:14px 18px;opacity:0;transform:translateY(16px) scale(.95);transition:opacity .5s var(--ease),transform .5s cubic-bezier(.2,1.4,.4,1),box-shadow .25s,border-color .25s}
+.og-node strong{display:block;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.85rem;letter-spacing:.02em;line-height:1.2}
+.og-node span{display:block;font-size:.85rem;color:var(--cinza);margin-top:3px;line-height:1.3}
+.og-node:hover{border-color:var(--laranja);box-shadow:0 14px 28px -16px rgba(224,96,31,.7);transform:translateY(-4px)}
+.og-top{display:grid;grid-template-columns:1fr 40px auto 40px 1fr;align-items:center;max-width:820px;margin:0 auto}
+.og-head{background:var(--ink);border-color:var(--ink);color:#fff;padding:20px 34px;border-radius:999px;transition-delay:.05s}
+.og-head span{color:#cfcfcf}
+.og-head strong{font-size:1.05rem}
+.og-side{transition-delay:var(--t)}
+.og-ico{display:none!important}
+.og-dash{height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 11px);transform:scaleX(0);transition:transform .5s var(--ease) .3s}
+.og-dash.l{transform-origin:right}.og-dash.r{transform-origin:left}
+.og-stem{width:2px;height:36px;background:var(--line);margin:0 auto;transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease) .55s}
+.og-bar{height:2px;background:var(--line);margin:0 calc(100%/6);transform:scaleX(0);transition:transform .6s var(--ease) .85s}
+.og-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.og-col{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:30px}
+.og-col::before{content:"";position:absolute;top:0;left:50%;width:2px;height:30px;margin-left:-1px;background:var(--line);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease);transition-delay:calc(1.3s + var(--c)*.15s)}
+.og-col .og-node{width:100%;transition-delay:calc(1.55s + var(--c)*.15s)}
+.og-col .og-sub{transition-delay:calc(1.85s + var(--c)*.15s)}
+.og-area{background:var(--laranja);border-color:var(--laranja)}
+.og-area strong{font-size:1rem}
+.og-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.og-pair .og-node:nth-child(2){transition-delay:calc(1.95s + var(--c)*.15s)}
+.og-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s var(--ease);transition-delay:calc(2.2s + var(--c)*.15s)}
+.og-chips small{width:100%;font-size:.78rem;color:var(--cinza);margin-bottom:2px}
+.og-chips span{font-family:var(--head);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;background:var(--ink);color:#fff;border-radius:999px;padding:7px 12px}
+.og.in .og-node,.og.in .og-chips{opacity:1;transform:none}
+.og.in .og-dash,.og.in .og-bar{transform:scaleX(1)}
+.og.in .og-stem,.og.in .og-col::before{transform:scaleY(1)}
+html.still .og-node,html.still .og-chips{opacity:1;transform:none}html.still .og-dash,html.still .og-bar{transform:none}html.still .og-stem,html.still .og-col::before{transform:none}
+@media (prefers-reduced-motion:reduce){.og-node,.og-chips{opacity:1;transform:none}.og-dash,.og-bar,.og-stem,.og-col::before{transform:none}}
+@media (max-width:900px){
+  .og-top{grid-template-columns:1fr;gap:10px}.og-dash{display:none}.og-head{order:-1}
+  .og-bar{display:none}.og-cols{grid-template-columns:1fr;gap:10px}.og-pair{grid-template-columns:1fr}
+}
+@media (max-width:900px){.steps-row,.docs.docs-3{grid-template-columns:1fr}.callout{padding:30px}}
+
+
+/* abas (cada item do menu abre a sua parte) */
+.view{display:none}
+.view.on{display:block;animation:viewIn .5s var(--ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.view[data-view="contato"]{padding-bottom:0}
+.ex-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ex-card{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;text-decoration:none;color:#fff;isolation:isolate}
+.ex-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s var(--ease)}
+.ex-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(17,17,17,0) 35%,rgba(17,17,17,.92))}
+.ex-card:hover img{transform:scale(1.06)}
+.ex-card .in{position:absolute;left:22px;right:22px;bottom:22px}
+.ex-card h3{font-size:1.7rem}
+.ex-card .go{margin-top:10px;display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--laranja-2)}
+.ex-card .go svg{width:16px;height:16px;transition:transform .25s}
+.ex-card:hover .go svg{transform:translateX(5px)}
+@media (max-width:1080px){.ex-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.ex-grid{grid-template-columns:1fr}.ex-card{aspect-ratio:16/10}}
+
+
+/* logos de parceiros flutuando, sem fundo */
+.partners{align-items:center}
+.partner-logo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:170px;text-align:center}
+.partner-logo img{max-height:96px;max-width:100%;width:auto;object-fit:contain;filter:drop-shadow(0 14px 14px rgba(17,17,17,.14));animation:float 4s ease-in-out infinite;animation-delay:var(--d,0s)}
+.partner-logo span{font-size:.85rem;color:var(--cinza)}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+html.hc .partner-logo img{background:#fff;border-radius:10px;padding:8px}
+
+
+/* título da capa animado: palavras entram em diagonal, moldura se fecha em "quadra" e um brilho passa */
+.hero-h1 .w{display:inline-block;opacity:0;transform:translate(-40px,50px) rotate(-6deg) scale(.9);animation:wordIn .7s cubic-bezier(.2,1.4,.4,1) forwards;animation-delay:calc(.25s + var(--n)*.12s)}
+@keyframes wordIn{to{opacity:1;transform:none}}
+.hero-h1 .hf{padding:0 .12em}
+.hero-h1 .hf::before,.hero-h1 .hf::after{opacity:0;transform:scale(1.35);animation:frameIn .6s var(--ease) forwards;animation-delay:1.25s}
+@keyframes frameIn{to{opacity:1;transform:none}}
+.hero-h1 .shine{background:linear-gradient(100deg,var(--laranja) 0%,var(--laranja) 40%,#ffd2b3 50%,var(--laranja) 60%,var(--laranja) 100%);background-size:250% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:wordIn .7s cubic-bezier(.2,1.4,.4,1) forwards,shine 4.5s ease-in-out 2s infinite;animation-delay:calc(.25s + var(--n)*.12s),2s}
+@keyframes shine{0%,55%{background-position:100% 0}80%,100%{background-position:0 0}}
+.hero-h1 em .w:first-child{animation-name:wordIn}
+html.still .hero-h1 .w,html.still .hero-h1 .hf::before,html.still .hero-h1 .hf::after{opacity:1;transform:none;animation:none}
+@media (prefers-reduced-motion:reduce){.hero-h1 .w,.hero-h1 .hf::before,.hero-h1 .hf::after{opacity:1;transform:none;animation:none}}
+
+
+/* logo em destaque na capa: entra quicando como a bola e assenta */
+.hero-logo{margin:26px 0 22px 90px;line-height:0}
+.hero-logo img{width:clamp(150px,15vw,210px);height:auto;transform-origin:50% 100%;animation:logoDrop 1.5s .2s both,logoIdle 5s 2.2s ease-in-out infinite}
+@keyframes logoDrop{0%{opacity:0;transform:translateY(-160px)}30%{opacity:1;transform:translateY(0) scale(1.06,.92);animation-timing-function:cubic-bezier(0,.55,.45,1)}48%{transform:translateY(-46px)}64%{transform:translateY(0) scale(1.03,.96)}78%{transform:translateY(-14px)}90%,100%{opacity:1;transform:translateY(0)}}
+@keyframes logoIdle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-1.5deg)}}
+.hero-logo img{filter:drop-shadow(0 18px 24px rgba(17,17,17,.12))}
+html.still .hero-logo img{animation:none}
+@media (prefers-reduced-motion:reduce){.hero-logo img{animation:none}}
+@media (max-width:900px){.hero-logo{text-align:center}.hero-logo img{margin:0 auto}}
+
+
+.hero-slogan{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:1;font-size:clamp(2rem,4vw,3.3rem);margin:0;letter-spacing:-.01em}
+.hero-slogan em{font-style:normal;color:var(--laranja)}
+.hero-slogan .w{animation-delay:calc(1.4s + var(--n)*.12s)}
+.hero-slogan .shine{animation-delay:calc(1.4s + var(--n)*.12s),3.2s}
+.hero-slogan .hf::before,.hero-slogan .hf::after{animation-delay:2.4s}
+
+.hero-ghost:hover{background:rgba(17,17,17,.06)}
+.hero::before{opacity:.35}
+
+
+/* quadra da capa: linhas firmes, garrafão pintado e entrada animada */
+.court svg{width:100%;height:100%}
+.court .c-key{opacity:.92;transform-origin:1440px 440px;}
+.court .k-l{transform-origin:0 440px;}
+.court .c-key{animation:keyIn 1s .3s cubic-bezier(.2,.8,.2,1) both}
+.court g path{stroke-dasharray:2400;stroke-dashoffset:2400;animation:lineDraw 1.6s .1s ease-out forwards}
+@keyframes lineDraw{to{stroke-dashoffset:0}}
+@keyframes keyIn{from{transform:scaleX(0)}to{transform:none}}
+.hero::before{background:radial-gradient(900px 500px at 15% 30%,rgba(255,255,255,.28),transparent 65%)!important;opacity:1!important}
+@media (max-width:900px){.court{display:none}}
+html.still .court g path{stroke-dashoffset:0;animation:none}html.still .court .c-key{animation:none}
+@media (prefers-reduced-motion:reduce){.court g path{stroke-dashoffset:0;animation:none}.court .c-key{animation:none}}
+
+
+.donate{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.donate-pix{background:var(--ink);color:#fff;border-radius:24px;padding:40px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.donate-pix small{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem;color:var(--laranja-2)}
+.donate-pix code{font-family:var(--head);font-weight:800;font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.1;word-break:break-all}
+.donate-pix span{color:#c9c9c9;margin-bottom:14px}
+.donate-other{background:#fff;border-radius:24px;padding:36px;display:flex;flex-direction:column;gap:12px}
+.donate-other h3{font-size:1.2rem;margin-bottom:6px}
+.donate-other a{display:block;text-decoration:none;border:1.5px solid var(--areia-2);border-radius:14px;padding:16px 18px;transition:border-color .2s,transform .2s}
+.donate-other a:hover{border-color:var(--laranja);transform:translateX(4px)}
+.donate-other strong{display:block;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.9rem}
+.donate-other span{color:var(--cinza);font-size:.92rem}
+@media (max-width:900px){.donate{grid-template-columns:1fr}.donate-pix{padding:28px}}
+
+
+.plea{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;background:#fff;border-radius:24px;overflow:hidden;margin-bottom:26px;box-shadow:0 24px 50px -34px rgba(0,0,0,.35)}
+.plea-img{position:relative;min-height:360px}
+.plea-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;transform:scale(1.08);transition:transform 1.4s var(--ease)}
+.plea.in .plea-img img{transform:scale(1)}
+.plea-txt{padding:48px;display:flex;flex-direction:column;justify-content:center}
+.plea-txt h3{font-size:clamp(1.8rem,3.2vw,2.7rem);line-height:1.02;margin-bottom:18px}
+.plea-txt h3 span{color:var(--laranja)}
+.plea-txt p{font-size:1.15rem;color:#333;max-width:52ch}
+.plea-txt blockquote{margin:14px 0 0;padding-left:18px;border-left:4px solid var(--laranja);font-family:var(--head);font-weight:700;font-size:1.15rem;line-height:1.3}
+.plea-txt cite{display:block;margin-top:8px;font-family:var(--body);font-style:normal;font-weight:400;font-size:.9rem;color:var(--cinza)}
+@media (max-width:900px){.plea{grid-template-columns:1fr}.plea-img{min-height:260px}.plea-txt{padding:28px}}
+
+/* =================== FLUTUANTES =================== */
+.fab{position:fixed;z-index:80;width:58px;height:58px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 30px -8px rgba(0,0,0,.45);transition:transform .2s}
+.fab:hover{transform:scale(1.07)}
+.fab svg{width:28px;height:28px}
+.fab-wa{right:22px;bottom:22px;background:#25D366;color:#fff}
+.fab-a11y{left:22px;bottom:22px;background:var(--ink);color:#fff;border:3px solid var(--laranja)}
+.fab-top{right:30px;bottom:94px;width:46px;height:46px;background:#fff;color:var(--ink);opacity:0;visibility:hidden;transition:.3s}
+.fab-top.show{opacity:1;visibility:visible}
+.a11y-panel{position:fixed;left:22px;bottom:92px;z-index:90;width:290px;background:#fff;color:var(--ink);border-radius:18px;padding:20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);display:none}
+.a11y-panel.open{display:block}
+.a11y-panel h2{font-size:1rem;margin-bottom:12px}
+.a11y-panel .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.a11y-panel button{min-height:48px;border-radius:10px;border:2px solid #ddd;background:#fff;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.a11y-panel button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.a11y-panel .full{grid-column:span 2}
+
+/* modos de acessibilidade */
+html.hc body{background:#000;color:#fff}
+html.hc .sec.sand,html.hc .stats,html.hc .cotas,html.hc .place,html.hc .partner,html.hc .doc,html.hc .faq details,html.hc form.card,html.hc .mv article,html.hc .project,html.hc .tl-panel,html.hc header.site,html.hc nav.main{background:#000!important;color:#fff!important;border-color:#fff!important}
+html.hc .btn-orange,html.hc .topbar{background:#ffd400!important;color:#000!important}
+html.hc .field input,html.hc .field select,html.hc .field textarea{background:#000;color:#fff;border-color:#fff}
+html.hc .eyebrow,html.hc .project .law,html.hc .mv .k{color:#ffd400!important}
+html.gray{filter:grayscale(1)}
+html.links a{text-decoration:underline!important;text-underline-offset:3px;outline:2px dashed var(--laranja);outline-offset:2px}
+html.still *,html.still *::before,html.still *::after{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* =================== ENTRADAS AO ROLAR (tom energético: diagonais rápidas) =================== */
+.rv{opacity:0;transform:translate(0,40px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.l{transform:translate(-60px,24px)}
+.rv.r{transform:translate(60px,24px)}
+.rv.d{transform:translate(-40px,40px) rotate(-2deg)}
+.rv.in{opacity:1;transform:none}
+html.still .rv,.no-js .rv{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+/* =================== RESPONSIVO =================== */
+@media (max-width:1080px){
+  .tiles,.docs,.partners{grid-template-columns:repeat(2,1fr)}
+  .next{grid-template-columns:repeat(2,1fr)}
+  .ev-track{grid-auto-columns:calc((100% - 22px)/2)}
+  footer .cols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .hero-grid,.about,.sponsor,.contact,.gov,.projects,.founders,.mv{grid-template-columns:1fr}
+  .hero-media{height:420px}
+  .cta-cards{grid-template-columns:1fr;gap:16px}
+  .cta-card{aspect-ratio:auto;min-height:300px}
+  .cta-card h3{font-size:1.7rem}
+  .mosaic{grid-template-columns:1fr 1fr;grid-auto-rows:220px}
+  .places{grid-template-columns:1fr}
+  .tl-panel{grid-template-columns:1fr;gap:10px;padding:28px}
+  .tl-panel .yr{font-size:3.6rem}
+  .intro-row{flex-direction:column;align-items:flex-start}
+  .contact{margin-top:-50px}
+  .about .photo .deco{display:none}
+}
+@media (max-width:620px){
+  body{font-size:1rem}
+  .sec{padding:80px 0}
+  .title{gap:16px}
+  .stats ul{grid-template-columns:repeat(2,1fr)}
+  .tiles,.docs,.partners,.next,.row2,.facts{grid-template-columns:1fr}
+  .mosaic{grid-template-columns:1fr}
+  .mtile.tall{grid-row:span 1}
+  .ev-track{grid-auto-columns:86%}
+  footer .cols{grid-template-columns:1fr}
+  .hero-media{height:340px}
+  .hero-media .big{left:30px}
+  .shot img{height:220px}
+  .title.right{flex-direction:row;text-align:left}
+  #o-que-fazemos .eyebrow,#o-que-fazemos .lead{text-align:left!important;margin-left:0!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- SVGs reutilizáveis -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ball" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="47" fill="#E0601F"/>
+      <g fill="none" stroke="#111" stroke-width="4.5" stroke-linecap="round">
+        <circle cx="50" cy="50" r="47"/>
+        <path d="M3 50h94M50 3v94"/>
+        <path d="M17 17c12 12 12 54 0 66M83 17c-12 12-12 54 0 66"/>
+      </g>
+    </symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></symbol>
+    <symbol id="ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" d="M12 21s-7-6.2-7-11.5a7 7 0 1 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g></symbol>
+    <symbol id="doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="site" id="topo">
+  <div class="wrap">
+    
+    <button class="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+    <nav class="main" id="menu" aria-label="Menu principal">
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#quem-somos">Quem somos</a></li>
+        <li><a href="#o-que-fazemos">O que fazemos</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#transparencia">Transparência</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a class="ig" href="https://www.instagram.com/academiadarua/" target="_blank" rel="noopener" aria-label="Instagram @academiadarua"><svg aria-hidden="true"><use href="#ig"/></svg></a></li>
+        <li><a class="btn btn-orange" href="#doacao">Apoie</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<div class="view" data-view="inicio">
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio" aria-label="Destaque">
+  <div class="court" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMin slice" fill="none">
+      <!-- quadra inteira: áreas de 3 pontos em tom mais escuro e garrafões pintados de laranja -->
+      <path d="M0 40 A400 400 0 0 1 0 840Z" fill="rgba(17,17,17,.10)"/>
+      <path d="M1440 40 A400 400 0 0 0 1440 840Z" fill="rgba(17,17,17,.10)"/>
+      <rect class="c-key k-l" x="-10" y="290" width="360" height="300" fill="rgba(17,17,17,.12)"/>
+      <rect class="c-key" x="1090" y="290" width="360" height="300" fill="#E0601F"/>
+      <g stroke="#fff" stroke-width="6" stroke-linecap="square">
+        <path d="M24 24H1416V2000M24 24V2000"/>
+        <path d="M720 24V2000"/>
+        <circle cx="720" cy="440" r="120"/>
+        <path d="M1440 40A400 400 0 0 0 1440 840"/>
+        <path d="M1090 290V590M1090 290H1440M1090 590H1440"/>
+        <path d="M1090 345A95 95 0 0 0 1090 535"/>
+      </g>
+      <g class="c-left" stroke="#fff" stroke-width="5" stroke-linecap="square" opacity=".45">
+        <path d="M0 40A400 400 0 0 1 0 840"/>
+        <path d="M350 290V590M350 290H0M350 590H0"/>
+        <path d="M350 345A95 95 0 0 1 350 535"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="hero-kicker"><span>Basquete 3x3 e cultura de rua</span><span class="line" aria-hidden="true"></span></div>
+        <h1 class="hero-logo"><img src="assets/logos/logo-academia-da-rua.png" alt="Academia da Rua — Associação Cultural e Desportiva" width="434" height="452"><span class="sr">A rua é a nossa quadra.</span></h1>
+        <p class="hero-h1 hero-slogan" aria-label="A rua é a nossa quadra."><span class="w" style="--n:0">A</span> <span class="w" style="--n:1">rua</span> <span class="w" style="--n:2">é</span> <span class="w" style="--n:3">a</span> <em><span class="w" style="--n:4">nossa</span> <span class="w shine frame hf" style="--n:5">quadra.</span></em></p>
+        <div class="actions">
+          <a class="btn btn-orange" href="#quem-somos">Conheça nossa história <svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a class="btn btn-ghost hero-ghost" href="#apoie">Seja um patrocinador</a>
+        </div>
+        <div class="dots" role="tablist" aria-label="Escolher destaque">
+          <button role="tab" aria-current="true" aria-label="Destaque 1"><span></span></button>
+          <button role="tab" aria-label="Destaque 2"><span></span></button>
+          <button role="tab" aria-label="Destaque 3"><span></span></button>
+          <button role="tab" aria-label="Destaque 4"><span></span></button>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="big">
+          <figure class="on"><img src="assets/img/3x3-ceu-aberto.jpg" alt="Jogo de basquete 3x3 ao ar livre, com público ao redor da quadra"></figure>
+          <figure><img src="assets/img/criancas-bandeja.jpg" alt="Criança fazendo bandeja em quadra coberta durante evento da Academia"></figure>
+          <figure><img src="assets/img/cadeira-rodas-time.jpg" alt="Atletas de basquete em cadeira de rodas comemorando em quadra"></figure>
+          <figure><img src="assets/img/viaduto-artes.jpg" alt="Grande grupo de participantes reunidos em quadra sob o viaduto"></figure>
+        </div>
+        <div class="small">
+          <figure class="on"><img src="assets/img/meninas-arremesso.jpg" alt="Meninas disputando a bola em torneio de basquete"></figure>
+          <figure><img src="assets/img/menina-bola.jpg" alt="Menina segurando a bola durante atividade"></figure>
+          <figure><img src="assets/img/trofeus-desafio.jpg" alt="Troféus e medalhas do Desafio 3x3"></figure>
+          <figure><img src="assets/img/itinerante-tabela.jpg" alt="Jovem arremessando em tabela móvel levada pela Academia"></figure>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= NÚMEROS ================= -->
+<div class="stats-wrap">
+  <div class="wrap">
+    <div class="stats rv">
+      <h2>Números da Academia</h2>
+      <ul>
+        <li><div class="num" data-count="auto-years">13</div><div class="lab">anos de<br>história</div></li>
+        <li><div class="num"><span data-count="1000" data-prefix="+">+1.000</span></div><div class="lab">crianças e jovens<br>atendidos</div></li>
+        <li><div class="num"><span data-count="150" data-prefix="+">+150</span></div><div class="lab">atletas<br>por evento</div></li>
+        <li><div class="num">3–4</div><div class="lab">eventos<br>por ano</div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================= EXPLORE (atalhos para as abas) ================= -->
+<section class="sec explore">
+  <div class="wrap">
+    <span class="eyebrow rv">Conheça a Academia</span>
+    <h2 class="title rv"><span class="tt">Entre na <span class="frame">quadra</span></span></h2>
+    <div class="ex-grid">
+      <a class="ex-card rv d" href="#quem-somos"><img src="assets/img/galera-reunida.jpg" alt="" loading="lazy"><div class="in"><h3>Quem somos</h3><span class="go">História, valores e organograma <svg aria-hidden="true"><use href="#arrow"/></svg></span></div></a>
+      <a class="ex-card rv d" href="#o-que-fazemos" style="transition-delay:.08s"><img src="assets/img/jogo-3x3.jpg" alt="" loading="lazy"><div class="in"><h3>O que fazemos</h3><span class="go">Na quadra e fora dela <svg aria-hidden="true"><use href="#arrow"/></svg></span></div></a>
+      <a class="ex-card rv d" href="#projetos" style="transition-delay:.16s"><img src="assets/img/bandeja-quadra.jpg" alt="" loading="lazy"><div class="in"><h3>Projetos</h3><span class="go">Patrocine pela Lei de Incentivo <svg aria-hidden="true"><use href="#arrow"/></svg></span></div></a>
+      <a class="ex-card rv d" href="#eventos" style="transition-delay:.24s"><img src="assets/img/cadeira-rodas-time.jpg" alt="" loading="lazy"><div class="in"><h3>Eventos</h3><span class="go">O que já rolou <svg aria-hidden="true"><use href="#arrow"/></svg></span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MANIFESTO ================= -->
+<section class="manifesto" aria-label="Manifesto">
+  <svg class="graf" aria-hidden="true" viewBox="0 0 100 100"><use href="#ball"/></svg>
+  <div class="wrap">
+    <blockquote class="rv d">A gente nasceu na <span>rua</span> e escolheu ficar nela. É ali que a bola quica, que o grafite colore o muro, que o break abre a roda e que cada criança descobre que tem lugar no jogo.</blockquote>
+    <div class="quote2 rv"><b aria-hidden="true">“</b><p>Em qualquer evento nosso, o hip hop está ali, no DJ, no grafite, no break. É a cultura da quebrada conversando com o esporte.</p></div>
+  </div>
+</section>
+
+<!-- ================= PARCEIROS ================= -->
+<section class="sec sand">
+  <div class="wrap">
+    <span class="eyebrow rv">Quem joga junto</span>
+    <h2 class="title rv"><span class="tt">Parceiros e <span class="frame">apoiadores</span></span></h2>
+    <div class="partners">
+      <div class="partner-logo rv" style="--d:0s"><img src="assets/logos/pbh.png" alt="Prefeitura de Belo Horizonte" loading="lazy"><span>Secretaria Municipal de Esportes e Lazer</span></div>
+      <div class="partner-logo rv" style="--d:-1.3s;transition-delay:.08s"><img src="assets/logos/palco-hiphop.png" alt="Palco Hip Hop" loading="lazy" style="max-height:130px"><span>Parceiro cultural</span></div>
+      <div class="partner-logo rv" style="--d:-2.6s;transition-delay:.16s"><img src="assets/logos/bop-games.png" alt="BOP Games" loading="lazy"><span>Parceiro</span></div>
+      <a class="partner empty rv" style="transition-delay:.24s" href="#apoie"><strong>Sua empresa aqui</strong><span>Patrocínio via Lei de Incentivo</span></a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="quem-somos">
+<!-- ================= QUEM SOMOS ================= -->
+<section class="sec about-sec" id="quem-somos">
+  <div class="wrap about">
+    <div class="rv l">
+      <span class="eyebrow">Quem somos</span>
+      <h2 class="title"><span class="tt">Nossa <span class="frame">rua</span></span></h2>
+      <p class="lead">A Academia da Rua é uma associação cultural e desportiva sem fins lucrativos, fundada em 2013 no Barreiro, em Belo Horizonte.</p>
+      <p>Nasceu de um time de basquete amador e se formalizou para ampliar o que já fazia nas quadras do bairro: abrir espaço para que crianças e jovens da periferia pratiquem esporte de graça, com orientação e com cultura.</p>
+      <p>Hoje, une basquete 3x3 a hip hop, DJ, break e grafite em eventos que reúnem a comunidade. Já organizou torneios com pontuação no ranking internacional FIBA 3x3, levou ações a creches e a atletas cadeirantes e foi reconhecida pela Câmara Municipal de Belo Horizonte.</p>
+      <div class="btns">
+        <a class="btn btn-dark" href="#historia">Nossa história</a>
+        <a class="btn btn-orange" href="#apoie">Seja um patrocinador</a>
+      </div>
+    </div>
+    <div class="photo rv r">
+      <svg class="deco" aria-hidden="true" viewBox="0 0 100 100"><use href="#ball"/></svg>
+      <img src="assets/img/galera-reunida.jpg" alt="Dezenas de crianças, jovens e adultos reunidos e comemorando em um evento da Academia da Rua" loading="lazy">
+      <svg class="deco2" aria-hidden="true" viewBox="0 0 100 100"><use href="#ball"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HISTÓRIA ================= -->
+<section class="sec sand" id="historia">
+  <div class="wrap">
+    <span class="eyebrow rv">Desde 2013</span>
+    <h2 class="title rv"><span class="tt">Nossa <span class="frame">história</span></span></h2>
+    <div class="timeline rv">
+      <div class="tl-years" role="tablist" aria-label="Linha do tempo">
+        <button role="tab" aria-selected="true" aria-controls="tl-2013" id="t-2013">2013</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2014" id="t-2014">2014</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2015" id="t-2015">2015</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2017" id="t-2017">2017</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2018" id="t-2018">2018</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2019" id="t-2019">2019</button>
+        <button role="tab" aria-selected="false" aria-controls="tl-2026" id="t-2026">2026</button>
+      </div>
+      <div class="tl-panel" role="tabpanel" id="tl-2013" aria-labelledby="t-2013"><div class="yr">2013</div><div><h3>Do time à associação</h3><p>A Academia da Rua nasceu em 21 de julho de 2013, no Barreiro, região Oeste de Belo Horizonte. Antes de ser associação, era um time de basquete amador e semiprofissional que conquistava títulos e mobilizava a comunidade.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2014" aria-labelledby="t-2014" hidden><div class="yr">2014</div><div><h3>Registro oficial</h3><p>Em 26 de fevereiro de 2014, a turma registrou a associação em cartório e obteve o CNPJ. Desde a origem, a Academia une duas vertentes: o basquete, especialmente o 3x3, e a cultura hip hop.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2015" aria-labelledby="t-2015" hidden><div class="yr">2015</div><div><h3>Homenagem na Câmara</h3><p>Reconhecimento especial da Câmara Municipal de Belo Horizonte pelo trabalho social por meio do esporte.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2017" aria-labelledby="t-2017" hidden><div class="yr">2017</div><div><h3>Torneio Vibra</h3><p>Torneio inclusivo de basquete 3x3 no Festival Vibra, em Belo Horizonte.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2018" aria-labelledby="t-2018" hidden><div class="yr">2018</div><div><h3>Circuito FIBA 3x3</h3><p>A Academia passa a organizar eventos oficiais na plataforma FIBA 3x3 e realiza a 4ª edição do Desafio Academia da Rua. O evento 3x3 do Minas Tênis Clube é premiado como melhor marketing esportivo do ano.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2019" aria-labelledby="t-2019" hidden><div class="yr">2019</div><div><h3>Viva a Rua e Minas Storm</h3><p>Ação itinerante em Santa Luzia com Globo Minas e Sesc, e torneio 3x3 no lançamento do Minas Storm (temporada 2019/20), no Minas Tênis Clube.</p></div></div>
+      <div class="tl-panel" role="tabpanel" id="tl-2026" aria-labelledby="t-2026" hidden><div class="yr">2026</div><div><h3>Reconhecimento e novos passos</h3><p>Parceria com a Prefeitura de Belo Horizonte, que patrocinou o Desafio 3x3, e a conquista de dois projetos aprovados na Lei de Incentivo ao Esporte.</p></div></div>
+    </div>
+
+    <div class="founders">
+      <figure class="founder rv l" style="margin:0">
+        <q>Nosso sonho sempre foi ter uma escolinha no Barreiro. Nós nascemos e crescemos aqui e queremos devolver algo bom para o território.</q>
+        <figcaption class="who">Ernani Silva Pereira <span>Cofundador · Presidente</span></figcaption>
+      </figure>
+      <figure class="founder rv r" style="margin:0">
+        <q>Não queremos formar jogadores profissionais. Queremos formar cidadãos.</q>
+        <figcaption class="who">Hertz Ferreira <span>Cofundador · Tesoureiro · ex-atleta profissional</span></figcaption>
+      </figure>
+    </div>
+    <div class="org" id="organograma">
+      <h3 class="org-title rv">Como a Academia se organiza</h3>
+      <div class="og" id="orgTree">
+        <!-- topo: direção geral com as duas áreas de apoio -->
+        <div class="og-top">
+          <div class="og-node og-side" style="--t:.35s"><span class="og-ico">₿</span><strong>Administrativo e Financeiro</strong></div>
+          <span class="og-dash l" aria-hidden="true"></span>
+          <div class="og-node og-head" style="--t:0s"><strong>Presidência</strong><span>Direção geral</span></div>
+          <span class="og-dash r" aria-hidden="true"></span>
+          <div class="og-node og-side" style="--t:.35s"><span class="og-ico">📣</span><strong>Comunicação e Marketing</strong></div>
+        </div>
+        <div class="og-stem" aria-hidden="true"></div>
+        <div class="og-bar" aria-hidden="true"></div>
+        <!-- três frentes -->
+        <div class="og-cols">
+          <div class="og-col" style="--c:0">
+            <div class="og-node og-area"><strong>Esportes</strong></div>
+          </div>
+          <div class="og-col" style="--c:1">
+            <div class="og-node og-area"><strong>Eventos</strong></div>
+          </div>
+          <div class="og-col" style="--c:2">
+            <div class="og-node og-area"><strong>Cultura</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REFERENCIAL ================= -->
+<section class="sec" id="valores" style="overflow:hidden">
+  <div class="court-bg" aria-hidden="true"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#111" stroke-width="4"><circle cx="720" cy="450" r="140"/><path d="M720 0v900"/><path d="M0 200c420 0 420 500 0 500M1440 200c-420 0-420 500 0 500"/></svg></div>
+  <svg class="ball-deco" aria-hidden="true" viewBox="0 0 100 100"><use href="#ball"/></svg>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow rv">Referencial estratégico</span>
+    <h2 class="title rv"><span class="tt">No que a gente <span class="frame">acredita</span></span></h2>
+    <div class="mv">
+      <article class="rv l"><span class="k">Por que existimos</span><h3>Missão</h3><p>Transformar vidas através do basquete, levando esporte, cultura e oportunidade às comunidades da região metropolitana de Belo Horizonte.</p></article>
+      <article class="rv"><span class="k">Onde queremos chegar</span><h3>Visão</h3><p>Em 5 anos, ser a principal referência de basquete no Barreiro — com escolinha o ano todo, ao menos 3 eventos por temporada e projetos aprovados de forma recorrente.</p></article>
+    </div>
+    <div class="tiles">
+      <div class="tile rv r"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="13" r="5"/><circle cx="32" cy="13" r="5"/><path d="M6 38c0-7 4.5-12 10-12s10 5 10 12M22 38c0-7 4.5-12 10-12s10 5 10 12"/></svg><h3>Inclusão</h3></div>
+      <div class="tile rv r" style="transition-delay:.1s"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4 8 10v12c0 10 7 18 16 22 9-4 16-12 16-22V10z"/><path d="m16 24 6 6 10-12"/></svg><h3>Responsabilidade</h3></div>
+      <div class="tile rv r" style="transition-delay:.2s"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 26l9-9 7 4 6-6 14 13-10 10-6-5-4 4-5-5-4 3z"/></svg><h3>Respeito</h3></div>
+      <div class="tile rv r" style="transition-delay:.3s"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22s-9-5.5-9-11.5A5 5 0 0 1 24 8a5 5 0 0 1 9 2.5C33 16.5 24 22 24 22z"/><path d="M4 34h8l8 4h10l12-7-3-3-9 3h-8l-6-5H4"/></svg><h3>Compromisso social</h3></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="o-que-fazemos">
+<!-- ================= O QUE FAZEMOS ================= -->
+<section class="sec sand" id="o-que-fazemos">
+  <div class="wrap">
+    <span class="eyebrow rv" style="text-align:right">O que fazemos</span>
+    <h2 class="title right rv"><span class="tt">Na quadra e <span class="frame">fora dela</span></span></h2>
+    <div class="mosaic">
+      <article class="mtile tall rv d" tabindex="0"><img src="assets/img/jogo-3x3.jpg" alt="Partida de basquete 3x3 em quadra coberta" loading="lazy"><span class="chip">Ranking FIBA 3x3</span><div><h3>Torneios 3x3</h3><p>Torneios de dois a três dias com mais de 150 atletas, nas categorias masculino, feminino, sub-17 e adulto. Atletas ranqueados na plataforma oficial FIBA 3x3.</p></div></article>
+      <article class="mtile rv d" tabindex="0" style="transition-delay:.1s"><img src="assets/img/itinerante-comunidade.jpg" alt="Tabela móvel montada em comunidade com crianças em fila" loading="lazy"><div><h3>Ações itinerantes</h3><p>Levamos tabelas, bolas e equipe técnica a comunidades da Grande BH, incluindo ações em creches.</p></div></article>
+      <article class="mtile rv d" tabindex="0" style="transition-delay:.2s"><img src="assets/img/festival-drible.jpg" alt="Jovem driblando entre cones com público assistindo" loading="lazy"><div><h3>Esporte + cultura de rua</h3><p>Hip hop, DJ, break, grafite e samba. Integramos o esporte à cultura periférica em ações como o Palco Hip Hop e o Samba Barreiro.</p></div></article>
+      <article class="mtile rv d" tabindex="0" style="transition-delay:.1s"><img src="assets/img/cadeira-rodas-jogo.jpg" alt="Partida de basquete em cadeira de rodas" loading="lazy"><div><h3>Basquete inclusivo</h3><p>Nossos eventos incluem disputas de basquete em cadeira de rodas, com participação de atletas com deficiência.</p></div></article>
+      <article class="mtile rv d" tabindex="0" style="transition-delay:.2s"><img src="assets/img/criancas-bandeja.jpg" alt="Crianças jogando basquete em quadra" loading="lazy"><span class="chip">O nosso sonho</span><div><h3>Escolinha de basquete</h3><p>A meta da nossa Visão: uma escolinha permanente no Barreiro, funcionando o ano todo, para que nenhuma criança fique sem quadra.</p></div></article>
+      </div>
+    <figure class="mtile quote rv d" style="margin:20px 0 0"><div><q>Formação, não competição. Todos jogam, todos crescem.</q><small>Princípio que atravessa tudo o que a gente faz</small></div></figure>
+  </div>
+</section>
+
+<!-- ================= GALERIA ================= -->
+<section class="sec" id="galeria">
+  <div class="wrap">
+    <span class="eyebrow rv">Galeria</span>
+    <h2 class="title rv"><span class="tt">Um dia na <span class="frame">Academia</span></span></h2>
+  </div>
+  <div class="strip">
+    <div class="strip-track" id="strip">
+      <button class="shot" data-src="assets/img/enterrada-2.jpg"><img src="assets/img/enterrada-2.jpg" alt="Atleta enterrando a bola" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/criancas-bandeja.jpg"><img src="assets/img/criancas-bandeja.jpg" alt="Criança fazendo bandeja" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/meninas-arremesso.jpg"><img src="assets/img/meninas-arremesso.jpg" alt="Meninas disputando a bola no ar" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/cadeira-rodas-time.jpg"><img src="assets/img/cadeira-rodas-time.jpg" alt="Time de basquete em cadeira de rodas" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/workshop-tecnico.jpg"><img src="assets/img/workshop-tecnico.jpg" alt="Treinador orientando em workshop" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/bola-3x3.jpg"><img src="assets/img/bola-3x3.jpg" alt="Bola oficial de basquete 3x3 na quadra" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/point-arremesso.jpg"><img src="assets/img/point-arremesso.jpg" alt="Jogador arremessando" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/viaduto-artes.jpg"><img src="assets/img/viaduto-artes.jpg" alt="Participantes reunidos sob o viaduto" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/menina-bola.jpg"><img src="assets/img/menina-bola.jpg" alt="Menina com a bola" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/trofeus-desafio.jpg"><img src="assets/img/trofeus-desafio.jpg" alt="Troféus do Desafio 3x3" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/point-ataque.jpg"><img src="assets/img/point-ataque.jpg" alt="Jogada de ataque" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/itinerante-comunidade.jpg"><img src="assets/img/itinerante-comunidade.jpg" alt="Ação itinerante em comunidade" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/point-bandeja.jpg"><img src="assets/img/point-bandeja.jpg" alt="Bandeja em quadra coberta" loading="lazy"></button>
+      <button class="shot" data-src="assets/img/point-rebote.jpg"><img src="assets/img/point-rebote.jpg" alt="Disputa de rebote" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="projetos">
+<!-- ================= PROJETOS ================= -->
+<section class="sec" id="projetos">
+  <div class="wrap">
+    <h2 class="title rv"><span class="tt">Projetos para <span class="frame">patrocinar</span></span></h2>
+    <p class="lead rv" style="margin-bottom:40px">Dois projetos da Academia estão na Lei de Incentivo ao Esporte e podem receber patrocínio de empresas tributadas pelo lucro real e de pessoas físicas que declaram no modelo completo.</p>
+    <div class="projects">
+      <article class="project rv l">
+        <div class="cover"><img src="assets/img/point-jogo.jpg" alt="Jogo de basquete 3x3 em quadra coberta" loading="lazy"></div>
+        <div class="body">
+          <h3>Circuito de Basquete 3x3</h3>
+          <div class="law">Projeto LIE nº 2601494</div>
+          <p class="proj-sum">Aulas e torneios gratuitos de basquete 3x3 para crianças e adolescentes, levados até as comunidades em formato itinerante.</p>
+          <dl class="facts">
+            <div><dt>Duração</dt><dd>12 meses</dd></div>
+            <div><dt>Valor</dt><dd class="big">R$ 505.198,32</dd></div>
+            <div><dt>Público</dt><dd>180 crianças e adolescentes de 6 a 18 anos</dd></div>
+          </dl>
+          <a class="btn btn-orange" href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Quero%20patrocinar%20o%20Circuito%20de%20Basquete%203x3%20(LIE%202601494)." target="_blank" rel="noopener">Quero patrocinar este projeto</a>
+        </div>
+      </article>
+      <article class="project rv r">
+        <div class="cover"><img src="assets/img/meninas-rebote.jpg" alt="Meninas disputando rebote em quadra" loading="lazy" style="object-position:center 80%"></div>
+        <div class="body">
+          <h3>Escolinha de Basquete Academia da Rua</h3>
+          <div class="law">Projeto LIE nº 2603153 <span class="tbc">a confirmar</span></div>
+          <p class="proj-sum">Ensino e prática regular de basquete para adolescentes, com foco em saúde, inclusão social e formação cidadã.</p>
+          <dl class="facts">
+            <div><dt>Duração</dt><dd>12 meses</dd></div>
+            <div><dt>Valor</dt><dd class="big">R$ 553.184,22</dd></div>
+            <div><dt>Público</dt><dd>60 adolescentes de 12 a 18 anos (30 meninas e 30 meninos)</dd></div>
+          </dl>
+          <a class="btn btn-orange" href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Quero%20saber%20como%20patrocinar%20a%20Escolinha%20de%20Basquete%20Academia%20da%20Rua." target="_blank" rel="noopener">Quero patrocinar este projeto</a>
+        </div>
+      </article>
+    </div>
+    <div class="callout rv" id="apoie">
+      <div class="callout-head">
+        <span class="eyebrow">Patrocine</span>
+        <h3>Sua marca no jogo que <span class="frame">transforma vidas</span></h3>
+        <p>Destine parte do seu Imposto de Renda aos projetos da Academia, sem custo adicional.</p>
+        <div class="pct"><div><b>2%</b><span>do IR devido<br>para empresas (lucro real)</span></div><div><b>7%</b><span>do IR devido<br>para pessoas físicas (declaração completa)</span></div></div>
+      </div>
+      <div class="callout-foot">
+        <a class="btn btn-orange" href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Vi%20o%20site%20da%20Academia%20da%20Rua%20e%20quero%20saber%20como%20minha%20empresa%20pode%20patrocinar%20os%20projetos." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Quero patrocinar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="doacao">
+<!-- ================= DOAÇÃO ================= -->
+<section class="sec sand" id="doacao">
+  <div class="wrap">
+    <span class="eyebrow rv">Apoie</span>
+    <h2 class="title rv"><span class="tt">Apoie a <span class="frame">Academia</span></span></h2>
+    <div class="plea rv">
+      <div class="plea-img"><img src="assets/img/menina-bola.jpg" alt="Menina segurando a bola de basquete em quadra" loading="lazy"></div>
+      <div class="plea-txt">
+        <h3>Seu apoio coloca uma criança <span>em quadra.</span></h3>
+        <p>A Academia da Rua é feita por voluntários e movida pela comunidade. Cada doação vira bola, uniforme e evento, e para muita criança e jovem da periferia é a primeira chance de descobrir que tem lugar no jogo.</p>
+        <blockquote>“Não queremos formar jogadores profissionais. Queremos formar cidadãos.”<cite>Hertz Ferreira, cofundador</cite></blockquote>
+      </div>
+    </div>
+    <div class="donate">
+      <div class="donate-pix rv l">
+        <small>Pix · chave e-mail</small>
+        <code id="pixKey">academiadarua@gmail.com</code>
+        <span>Associação Cultural e Desportiva Academia da Rua</span>
+        <button class="btn btn-orange" id="copyPix" type="button">Copiar chave</button>
+      </div>
+      <div class="donate-other rv r">
+        <h3>Outras formas de ajudar</h3>
+        <a href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Gostaria%20de%20doar%20materiais%20esportivos%20para%20a%20Academia%20da%20Rua." target="_blank" rel="noopener"><strong>Doar material esportivo</strong><span>Materiais e uniformes para as atividades</span></a>
+        <a href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Quero%20ser%20volunt%C3%A1rio(a)%20na%20Academia%20da%20Rua.%20Como%20posso%20ajudar%3F" target="_blank" rel="noopener"><strong>Ser voluntário</strong><span>Professores, monitores, fotógrafos, DJs e mais</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="view" data-view="eventos">
+<!-- ================= EVENTOS ================= -->
+<section class="sec dark events" id="eventos">
+  <div class="wrap">
+    <span class="eyebrow rv">Experiências</span>
+    <h2 class="title rv"><span class="tt">Eventos <span class="frame">realizados</span></span></h2>
+    <div class="ev-track" id="evTrack" tabindex="0" aria-label="Eventos realizados, role para os lados">
+      <article class="ev"><img src="assets/img/point-quadra.jpg" alt="" loading="lazy"><span class="date">Mar/2026</span><div class="where">Point Barreiro · BH</div><h3>Desafio 3x3 PBH — 2ª etapa</h3><p>Campeonato de basquete de rua com cultura hip hop, patrocinado pela Prefeitura de BH.</p></article>
+      <article class="ev"><img src="assets/img/meninas-rebote.jpg" alt="" loading="lazy"><span class="date">17/01/2026</span><div class="where">Praça Louis Braille · Saudade</div><h3>Desafio 3x3 PBH — 1ª etapa</h3><p>Evento oficial FIBA 3x3 com 30 equipes em duas quadras e forte presença do basquete feminino.</p></article>
+      <article class="ev"><img src="assets/img/workshop-roda.jpg" alt="" loading="lazy"><span class="date">Jul/2024</span><div class="where">Palco Hip Hop · Barreiro</div><h3>Workshop e Campeonato 3x3</h3><p>Aulas para crianças e adultos e campeonato dentro da programação gratuita do festival.</p></article>
+      <article class="ev"><img src="assets/img/itinerante-tabela.jpg" alt="" loading="lazy"><span class="date">2019</span><div class="where">Santa Luzia · MG</div><h3>Viva a Rua</h3><p>Ação itinerante com Globo Minas e Sesc em Minas Gerais.</p></article>
+      <article class="ev"><img src="assets/img/enterrada.jpg" alt="" loading="lazy"><span class="date">2019</span><div class="where">Minas Tênis Clube · BH</div><h3>Lançamento do Minas Storm</h3><p>Torneio 3x3 de apresentação da equipe para a temporada 2019/20.</p></article>
+      <article class="ev"><img src="assets/img/cadeira-rodas-grupo.jpg" alt="" loading="lazy"><span class="date">Out/2018</span><div class="where">Reportagem R7</div><h3>Desafio sobre rodas</h3><p>Atletas do basquete convencional enfrentaram atletas do basquete em cadeira de rodas no 3x3.</p></article>
+      <article class="ev"><img src="assets/img/point-salto.jpg" alt="" loading="lazy"><span class="date">Set/2018</span><div class="where">Point Barreiro · BH</div><h3>Desafio Academia da Rua — 4ª edição</h3><p>Palestras sobre regras do 3x3, workshops com treinadores e torneio nas categorias feminina, sub-18 e adulto.</p></article>
+      <article class="ev"><img src="assets/img/festival-drible.jpg" alt="" loading="lazy"><span class="date">2017</span><div class="where">Festival Vibra · BH</div><h3>Torneio Vibra de Basquete 3x3</h3><p>Torneio inclusivo dentro de festival de música, arte e esporte.</p></article>
+    </div>
+    <div class="ev-nav">
+      <button class="arrow" id="evPrev" aria-label="Eventos anteriores"><svg aria-hidden="true" style="transform:rotate(180deg)"><use href="#arrow"/></svg></button>
+      <div class="ev-dots" id="evDots"></div>
+      <button class="arrow" id="evNext" aria-label="Próximos eventos"><svg aria-hidden="true"><use href="#arrow"/></svg></button>
+    </div>
+    <div class="media">
+      <b>Na mídia</b>
+      <a href="https://prefeitura.pbh.gov.br/noticias/bh-em-pauta-basquete-no-barreiro" target="_blank" rel="noopener">Prefeitura de BH · BH em Pauta ↗</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="transparencia">
+<!-- ================= TRANSPARÊNCIA ================= -->
+<section class="sec" id="transparencia" style="background:#faf7f2">
+  <div class="wrap">
+    <span class="eyebrow rv">Prestação de contas</span>
+    <h2 class="title rv"><span class="tt"><span class="frame">Transparência</span></span></h2>
+    <div class="docs docs-3">
+      <article class="doc rv"><div class="ico"><svg aria-hidden="true"><use href="#doc"/></svg></div><h3>Estatuto social</h3><p>Com averbações registradas em cartório.</p><span class="meta">PDF · em breve</span></article>
+      <article class="doc rv" style="transition-delay:.1s"><div class="ico"><svg aria-hidden="true"><use href="#doc"/></svg></div><h3>Capacidade técnica (CTO)</h3><p>Histórico, equipe e comprovações.</p><span class="meta">PDF · em breve</span></article>
+      <article class="doc rv" style="transition-delay:.2s"><div class="ico"><svg aria-hidden="true"><use href="#doc"/></svg></div><h3>Circuito de Basquete 3x3</h3><p>Apresentação do projeto itinerante (LIE nº 2601494).</p><span class="meta">PDF · em breve</span></article>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="view" data-view="contato">
+<!-- ================= CONTATO ================= -->
+<section id="contato">
+  <div class="contact-hero">
+    <img src="assets/img/marca-calcamento.jpg" alt="" loading="lazy">
+    <div class="wrap">
+      <h2 class="rv">Entre nesse<br><span class="frame">jogo!</span></h2>
+      <p class="rv">Patrocine, doe material, seja voluntário ou leve a Academia até a sua comunidade.</p>
+      <a class="btn btn-orange rv" href="https://wa.me/5531992033160" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Fale conosco</a>
+    </div>
+  </div>
+  <div class="wrap contact">
+    <form class="card rv l" id="form" action="https://formsubmit.co/academiadarua@gmail.com" method="POST" novalidate>
+      <h3 style="font-size:1.4rem;margin-bottom:20px">Contato e ouvidoria</h3>
+      <input type="hidden" name="_subject" value="Mensagem pelo site — Academia da Rua">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="row2">
+        <div class="field"><label for="f-nome">Nome</label><input id="f-nome" name="nome" autocomplete="name"></div>
+        <div class="field"><label for="f-contato">E-mail ou WhatsApp</label><input id="f-contato" name="contato" required></div>
+      </div>
+      <div class="field"><label for="f-assunto">Assunto</label>
+        <select id="f-assunto" name="assunto">
+          <option>Patrocínio</option>
+          <option>Levar um evento à minha comunidade</option>
+          <option>Voluntariado</option>
+          <option>Imprensa</option>
+          <option>Ouvidoria · Elogio</option>
+          <option>Ouvidoria · Sugestão</option>
+          <option>Ouvidoria · Reclamação</option>
+          <option>Ouvidoria · Denúncia</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-msg">Mensagem</label><textarea id="f-msg" name="mensagem" required></textarea></div>
+      <label class="check"><input type="checkbox" id="f-anon" name="anonimo" value="sim"> Enviar de forma anônima (ouvidoria)</label>
+      <button class="btn btn-orange" type="submit">Enviar mensagem</button>
+      <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+    </form>
+    <aside class="info rv r">
+      <h3>Fale com a Academia</h3>
+      <ul>
+        <li><span class="i"><svg aria-hidden="true"><use href="#wa"/></svg></span><div><small>WhatsApp</small><a href="https://wa.me/5531992033160" target="_blank" rel="noopener">(31) 99203-3160</a></div></li>
+        <li><span class="i"><svg aria-hidden="true"><use href="#mail"/></svg></span><div><small>E-mail</small><a href="mailto:academiadarua@gmail.com">academiadarua@gmail.com</a></div></li>
+        <li><span class="i"><svg aria-hidden="true"><use href="#ig"/></svg></span><div><small>Instagram</small><a href="https://www.instagram.com/academiadarua/" target="_blank" rel="noopener">@academiadarua</a></div></li>
+        <li><span class="i"><svg aria-hidden="true"><use href="#pin"/></svg></span><div><small>Endereço</small><a href="https://www.google.com/maps/search/?api=1&query=Rua+Cisne+309+Miramar+Belo+Horizonte+MG+30644-070" target="_blank" rel="noopener">Rua Cisne, 309 · Miramar (Barreiro) · Belo Horizonte/MG · CEP 30644-070</a></div></li>
+      </ul>
+      <div class="wa-list">
+        <a href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Gostaria%20de%20doar%20materiais%20esportivos%20para%20a%20Academia%20da%20Rua." target="_blank" rel="noopener">Doar material <svg width="18" height="18" aria-hidden="true"><use href="#arrow"/></svg></a>
+        <a href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Quero%20ser%20volunt%C3%A1rio(a)%20na%20Academia%20da%20Rua.%20Como%20posso%20ajudar%3F" target="_blank" rel="noopener">Ser voluntário <svg width="18" height="18" aria-hidden="true"><use href="#arrow"/></svg></a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= PERGUNTAS FREQUENTES (dentro de Contato) ================= -->
+<section class="sec sand" id="duvidas" style="padding:90px 0;margin-top:90px">
+  <div class="wrap">
+    <span class="eyebrow rv" style="text-align:center">Antes de chamar a gente</span>
+    <h2 class="title center rv"><span class="tt">Perguntas <span class="frame">frequentes</span></span></h2>
+    <div class="faq">
+      <details class="rv"><summary>Como minha empresa pode patrocinar a Academia?</summary><p>Pela Lei de Incentivo ao Esporte. Empresas tributadas pelo lucro real podem destinar até 2% do IR devido, e pessoas físicas que declaram no modelo completo, até 7%, sem custo adicional. Fale com a gente pelo WhatsApp que enviamos a apresentação dos projetos.</p></details>
+      <details class="rv"><summary>Como funcionam os torneios de 3x3?</summary><p>São torneios de dois a três dias, nas categorias masculino, feminino, sub-17 e adulto, com atletas ranqueados na plataforma oficial FIBA 3x3. As inscrições são divulgadas no Instagram <a href="https://www.instagram.com/academiadarua/" target="_blank" rel="noopener">@academiadarua</a> e no WhatsApp.</p></details>
+      <details class="rv"><summary>Posso levar um evento da Academia para minha comunidade?</summary><p>Sim. Levamos tabelas, bolas e equipe técnica até a comunidade. Mande uma mensagem pelo formulário ou pelo WhatsApp com o local, o público estimado e a data desejada.</p></details>
+      <details class="rv"><summary>Como posso doar?</summary><p>Pelo Pix <b>academiadarua@gmail.com</b> ou doando materiais e uniformes. Veja todas as formas na aba <a href="#doacao">Apoie</a>.</p></details>
+      <details class="rv"><summary>Como ser voluntário?</summary><p>Escolha “Voluntariado” no formulário ou chame no WhatsApp. Professores, monitores, fotógrafos, DJs, grafiteiros e voluntários de todas as áreas são bem-vindos.</p></details>
+      <details class="rv"><summary>A Academia da Rua tem fins lucrativos?</summary><p>Não. É uma associação sem fins lucrativos, conduzida de forma voluntária desde 2013. Os documentos estão na aba <a href="#transparencia">Transparência</a>.</p></details>
+    </div>
+  </div>
+</section>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="#inicio" aria-label="Academia da Rua — voltar ao início"><img class="logo logo-ft" src="assets/logos/logo-academia-da-rua-branca.png" alt="Academia da Rua — Associação Cultural e Desportiva" loading="lazy"></a>
+        <p>Transformar vidas através do basquete.</p>
+      </div>
+      <div><h4>Navegue</h4><ul><li><a href="#quem-somos">Quem somos</a></li><li><a href="#o-que-fazemos">O que fazemos</a></li><li><a href="#projetos">Projetos</a></li><li><a href="#eventos">Eventos</a></li><li><a href="#transparencia">Transparência</a></li></ul></div>
+      <div><h4>Contato</h4><ul><li><a href="https://wa.me/5531992033160" target="_blank" rel="noopener">(31) 99203-3160</a></li><li><a href="mailto:academiadarua@gmail.com">academiadarua@gmail.com</a></li><li><a href="https://www.instagram.com/academiadarua/" target="_blank" rel="noopener">@academiadarua</a></li><li style="padding-top:6px">Rua Cisne, 309 · Miramar (Barreiro)<br>Belo Horizonte/MG</li></ul></div>
+      <div><h4>Apoie</h4><p>Pix (e-mail):<br><b style="color:#fff">academiadarua@gmail.com</b></p><a class="btn btn-orange" href="#doacao" style="margin-top:6px">Quero doar</a></div>
+    </div>
+    <div class="legal"><span>© <span id="ano">2026</span> Associação Cultural e Desportiva Academia da Rua · CNPJ 20.112.947/0001-00</span><span>Barreiro · Belo Horizonte (MG)</span></div>
+  </div>
+</footer>
+
+<!-- flutuantes -->
+<a class="fab fab-wa" href="https://wa.me/5531992033160?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Academia%20da%20Rua." target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+<a class="fab fab-top" href="#topo" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<button class="fab fab-a11y" id="a11yBtn" aria-label="Opções de acessibilidade" aria-expanded="false" aria-controls="a11y"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" fill="currentColor"/><path d="M4 8l8 2 8-2M12 10v5m0 0-3 6m3-6 3 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div class="a11y-panel" id="a11y" role="dialog" aria-label="Acessibilidade">
+  <h2>Acessibilidade</h2>
+  <div class="grid">
+    <button data-a="minus">A− Texto</button>
+    <button data-a="plus">A+ Texto</button>
+    <button data-a="hc" aria-pressed="false">Alto contraste</button>
+    <button data-a="gray" aria-pressed="false">Escala de cinza</button>
+    <button data-a="links" aria-pressed="false">Destacar links</button>
+    <button data-a="still" aria-pressed="false">Pausar animações</button>
+    <button data-a="reset" class="full">Restaurar padrão</button>
+  </div>
+</div>
+
+<div class="lightbox" id="lb" role="dialog" aria-label="Foto ampliada" aria-modal="true">
+  <button class="x" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
+  <button class="pv" aria-label="Foto anterior"><svg style="transform:rotate(180deg)"><use href="#arrow"/></svg></button>
+  <img alt="">
+  <button class="nx" aria-label="Próxima foto"><svg><use href="#arrow"/></svg></button>
+</div>
+
+<!-- VLibras (funciona quando o site estiver publicado) -->
+<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>
+
+<script>
+(function(){
+  const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+  const root=document.documentElement;
+  const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||root.classList.contains('still');
+  let store; try{store=window.localStorage}catch(e){store=null}
+  const save=(k,v)=>{try{store&&store.setItem(k,v)}catch(e){}}, load=k=>{try{return store&&store.getItem(k)}catch(e){return null}};
+
+  /* ano automático */
+  const now=new Date(); $('#ano').textContent=now.getFullYear();
+  const founded=new Date(2013,6,21); let yrs=now.getFullYear()-2013; if(now<new Date(now.getFullYear(),6,21))yrs--;
+  const yEl=$('[data-count="auto-years"]'); yEl.dataset.count=yrs; yEl.textContent=yrs;
+
+  /* cabeçalho + menu */
+  const header=$('header.site'), topBtn=$('.fab-top');
+  addEventListener('scroll',()=>{const y=scrollY;header.classList.toggle('scrolled',y>10);topBtn.classList.toggle('show',y>900)},{passive:true});
+  const burger=$('.burger'), menu=$('#menu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')});
+  $$('#menu a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.setAttribute('aria-expanded','false')}));
+  /* ===== abas: cada link do menu mostra a sua parte do site ===== */
+  const views=$$('.view');
+  const navLinks=$$('#menu a[href^="#"]');
+  function route(scroll){
+    let id=(location.hash||'#inicio').slice(1), target=id?document.getElementById(id):null;
+    if(target&&!target.closest('.view'))return;
+    if(!target){target=document.getElementById('inicio');id='inicio'}
+    const view=target.closest('.view');
+    views.forEach(v=>v.classList.toggle('on',v===view));
+    const name=view.dataset.view;
+    navLinks.forEach(a=>{const t=document.getElementById(a.getAttribute('href').slice(1));a.classList.toggle('active',!!t&&t.closest('.view')===view&&!a.classList.contains('btn'))});
+    document.title=(name==='inicio'?'Academia da Rua · Basquete 3x3 e cultura de rua no Barreiro':(view.querySelector('h2')?.textContent.trim()||'')+' · Academia da Rua');
+    if(scroll!==false){
+      const first=view.querySelector('section');
+      if(target===first||target===view||id==='inicio') window.scrollTo({top:0,behavior:'auto'});
+      else { const y=target.getBoundingClientRect().top+scrollY-90; window.scrollTo({top:y,behavior:'auto'}) }
+    }
+    document.dispatchEvent(new CustomEvent('viewchange',{detail:name}));
+  }
+  addEventListener('hashchange',()=>route());
+  route(location.hash?undefined:false);
+
+  /* animação assinatura: a bola entra quicando e assenta */
+  const ball=$('#bounceBall');
+  if(ball&&ball.animate&&!reduce()){
+    ball.animate([
+      {transform:'translateY(-120px)',offset:0,easing:'cubic-bezier(.55,0,1,.45)'},
+      {transform:'translateY(0) scale(1.15,.85)',offset:.35,easing:'cubic-bezier(0,.55,.45,1)'},
+      {transform:'translateY(-40px)',offset:.55,easing:'cubic-bezier(.55,0,1,.45)'},
+      {transform:'translateY(0) scale(1.08,.92)',offset:.72,easing:'cubic-bezier(0,.55,.45,1)'},
+      {transform:'translateY(-12px)',offset:.85,easing:'cubic-bezier(.55,0,1,.45)'},
+      {transform:'translateY(0)',offset:1}
+    ],{duration:1400,delay:200,fill:'backwards'});
+  }
+
+  /* hero: troca de título e fotos a cada 6s */
+  const titles=$$('.hero-titles > *'), bigs=$$('.hero-media .big figure'), smalls=$$('.hero-media .small figure'), dots=$$('.dots button');
+  let hi=0, htimer;
+  function hero(i){
+    hi=(i+bigs.length)%bigs.length;
+        [bigs,smalls].forEach(g=>g.forEach((f,k)=>f.classList.toggle('on',k===hi)));
+    dots.forEach((d,k)=>d.setAttribute('aria-current',k===hi));
+  }
+  function play(){clearInterval(htimer);if(!reduce())htimer=setInterval(()=>hero(hi+1),6000)}
+  dots.forEach((d,k)=>d.addEventListener('click',()=>{hero(k);play()}));
+  play();
+
+  /* entradas ao rolar */
+  const rvIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rvIO.unobserve(e.target)}}),{threshold:.2,rootMargin:'0px 0px -5% 0px'});
+  $$('.rv').forEach(el=>rvIO.observe(el));
+  const ot=$('#orgTree'); if(ot) rvIO.observe(ot);
+
+  /* contadores: 0 → valor em 1,6s, desacelerando */
+  const fmt=n=>n.toLocaleString('pt-BR');
+  const cIO=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return; cIO.unobserve(e.target);
+    $$('[data-count]',e.target).forEach(el=>{
+      const end=+el.dataset.count, pre=el.dataset.prefix||''; if(reduce()){el.textContent=pre+fmt(end);return}
+      const t0=performance.now();
+      (function step(t){const p=Math.min((t-t0)/1600,1),v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=pre+fmt(v);if(p<1)requestAnimationFrame(step)})(t0);
+    });
+  }),{threshold:.4});
+  cIO.observe($('.stats'));
+
+  /* linha do tempo */
+  const tabs=$$('.tl-years button');
+  tabs.forEach((b,i)=>{
+    b.addEventListener('click',()=>sel(i));
+    b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){sel(i+1);tabs[(i+1)%tabs.length].focus()}if(e.key==='ArrowLeft'){sel(i-1);tabs[(i-1+tabs.length)%tabs.length].focus()}});
+  });
+  function sel(i){i=(i+tabs.length)%tabs.length;tabs.forEach((b,k)=>{b.setAttribute('aria-selected',k===i);b.tabIndex=k===i?0:-1;const p=document.getElementById(b.getAttribute('aria-controls'));p.hidden=k!==i;if(k===i){p.classList.remove('anim');void p.offsetWidth;p.classList.add('anim')}})}
+  tabs.forEach((b,k)=>b.tabIndex=k===0?0:-1);
+
+  /* carrossel de eventos */
+  const track=$('#evTrack'), evs=$$('.ev',track), dotsBox=$('#evDots');
+  const per=()=>Math.max(1,Math.round(track.clientWidth/evs[0].getBoundingClientRect().width));
+  function pages(){return Math.ceil(evs.length-per()+1)}
+  function buildDots(){dotsBox.innerHTML='';for(let i=0;i<pages();i++){const b=document.createElement('button');b.setAttribute('aria-label','Ir para o evento '+(i+1));b.innerHTML='<span></span>';b.onclick=()=>go(i);dotsBox.appendChild(b)}mark()}
+  function cur(){const w=evs[0].getBoundingClientRect().width+22;return Math.round(track.scrollLeft/w)}
+  function go(i){const n=pages();i=(i+n)%n;track.scrollTo({left:i*(evs[0].getBoundingClientRect().width+22),behavior:reduce()?'auto':'smooth'})}
+  function mark(){const c=cur();$$('button',dotsBox).forEach((b,k)=>b.setAttribute('aria-current',k===c))}
+  track.addEventListener('scroll',()=>{clearTimeout(track._t);track._t=setTimeout(mark,80)},{passive:true});
+  $('#evPrev').onclick=()=>go(cur()-1); $('#evNext').onclick=()=>go(cur()+1);
+  let evTimer=null, evHover=false;
+  function evPlay(){clearInterval(evTimer);if(!reduce())evTimer=setInterval(()=>{if(!evHover)go(cur()+1)},5000)}
+  track.addEventListener('mouseenter',()=>evHover=true);track.addEventListener('mouseleave',()=>evHover=false);
+  track.addEventListener('focusin',()=>evHover=true);track.addEventListener('focusout',()=>evHover=false);
+  buildDots(); evPlay(); document.addEventListener('viewchange',e=>{if(e.detail==='eventos')setTimeout(buildDots,60)}); addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(buildDots,150)});
+
+  /* galeria + lightbox */
+  const shots=$$('.shot'), lb=$('#lb'), lbImg=$('img',lb); let li=0, lastFocus;
+  function openLb(i){li=(i+shots.length)%shots.length;lbImg.src=shots[li].dataset.src;lbImg.alt=$('img',shots[li]).alt;lb.classList.add('open');$('.x',lb).focus()}
+  function closeLb(){lb.classList.remove('open');lastFocus&&lastFocus.focus()}
+  shots.forEach((s,i)=>s.addEventListener('click',()=>{lastFocus=s;openLb(i)}));
+  $('.x',lb).onclick=closeLb; $('.pv',lb).onclick=()=>openLb(li-1); $('.nx',lb).onclick=()=>openLb(li+1);
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
+  addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')openLb(li+1);if(e.key==='ArrowLeft')openLb(li-1)});
+
+  /* Pix: copiar */
+  $('#copyPix').addEventListener('click',async e=>{
+    const b=e.currentTarget, key='academiadarua@gmail.com';
+    try{await navigator.clipboard.writeText(key);b.textContent='Chave copiada!'}
+    catch(err){const r=document.createRange();r.selectNodeContents($('#pixKey'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selecionada: copie com Ctrl+C'}
+    setTimeout(()=>b.textContent='Copiar chave',3000);
+  });
+
+  /* formulário (FormSubmit) */
+  const form=$('#form'), msg=$('#formMsg');
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!form.mensagem.value.trim()||(!form.anonimo.checked&&!form.contato.value.trim())){msg.textContent='Preencha a mensagem e um contato (ou marque envio anônimo).';msg.style.color='#A8410F';return}
+    if(form._honey.value)return;
+    const data=new FormData(form); if(form.anonimo.checked){data.set('nome','Anônimo');data.set('contato','Anônimo')}
+    msg.style.color='inherit'; msg.textContent='Enviando…';
+    try{
+      const r=await fetch('https://formsubmit.co/ajax/academiadarua@gmail.com',{method:'POST',headers:{'Accept':'application/json'},body:data});
+      if(!r.ok)throw 0; msg.textContent='Enviado! Obrigado, a gente responde em breve.'; msg.style.color='#1f7a45'; form.reset();
+    }catch(err){msg.innerHTML='Erro ao enviar. <a href="https://wa.me/5531992033160" target="_blank" rel="noopener">Tente pelo WhatsApp</a>.';msg.style.color='#A8410F'}
+  });
+
+  /* acessibilidade */
+  const panel=$('#a11y'), aBtn=$('#a11yBtn');
+  aBtn.addEventListener('click',()=>{const o=panel.classList.toggle('open');aBtn.setAttribute('aria-expanded',o)});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open')){panel.classList.remove('open');aBtn.setAttribute('aria-expanded','false');aBtn.focus()}});
+  let fs=+(load('ar-fs')||100);
+  const apply=()=>{root.style.fontSize=fs+'%';['hc','gray','links','still'].forEach(c=>{const on=load('ar-'+c)==='1';root.classList.toggle(c,on);const b=$(`[data-a="${c}"]`,panel);b&&b.setAttribute('aria-pressed',on)})};
+  $$('button',panel).forEach(b=>b.addEventListener('click',()=>{
+    const a=b.dataset.a;
+    if(a==='plus')fs=Math.min(140,fs+10); else if(a==='minus')fs=Math.max(90,fs-10);
+    else if(a==='reset'){fs=100;['hc','gray','links','still'].forEach(c=>save('ar-'+c,'0'))}
+    else save('ar-'+a,load('ar-'+a)==='1'?'0':'1');
+    save('ar-fs',fs); apply(); if(a==='still'||a==='reset')play(),evPlay();
+  }));
+  apply();
+
+  /* VLibras: só carrega fora do visualizador */
+  try{const s=document.createElement('script');s.src='https://vlibras.gov.br/app/vlibras-plugin.js';s.onload=()=>{try{new window.VLibras.Widget('https://vlibras.gov.br/app')}catch(e){}};document.body.appendChild(s)}catch(e){}
+})();
+</script>
+
+<!-- ===== MODO REVISÃO: botão e formulário de feedback (remover na versão final) ===== -->
+<div class="rv-banner" role="note">Versão para revisão da equipe · <button type="button" class="rv-open-inline">deixe seu feedback</button></div>
+<button class="fb-fab" type="button" id="fbOpen" aria-haspopup="dialog"><span aria-hidden="true">💬</span> Dar feedback</button>
+<div class="fb-modal" id="fbModal" role="dialog" aria-modal="true" aria-labelledby="fbTitle" hidden>
+  <div class="fb-card">
+    <button class="fb-x" type="button" id="fbClose" aria-label="Fechar">×</button>
+    <h2 id="fbTitle">O que você achou?</h2>
+    <p class="fb-sub">Comente qualquer parte do site e mande fotos que podem entrar nele. Tudo chega direto para a Karine, da Trilha.</p>
+    <form id="fbForm" action="https://formsubmit.co/karine.barcelos@trilhagestao.com" method="POST" enctype="multipart/form-data" target="fbFrame">
+      <input type="hidden" name="_subject" id="fbSubject" value="Feedback site Academia da Rua">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="field"><label for="fbNome">Seu nome</label><input id="fbNome" name="nome" required autocomplete="name"></div>
+      <div class="field"><label for="fbAba">Sobre qual parte?</label>
+        <select id="fbAba" name="aba">
+          <option value="inicio">Início</option><option value="quem-somos">Quem somos</option><option value="o-que-fazemos">O que fazemos</option>
+          <option value="projetos">Projetos</option><option value="eventos">Eventos</option><option value="transparencia">Transparência</option>
+          <option value="doacao">Apoie</option><option value="contato">Contato</option><option value="geral">O site todo</option>
+        </select></div>
+      <div class="field"><label for="fbMsg">Comentário</label><textarea id="fbMsg" name="comentario" required placeholder="Ex.: trocar a foto da capa, corrigir o nome do evento, acrescentar uma informação…"></textarea></div>
+      <div class="field"><label for="fbFoto">Fotos (opcional)</label><input id="fbFoto" type="file" name="attachment" accept="image/*" multiple><small class="fb-hint">Pode escolher mais de uma. Se puder, diga no comentário onde cada foto deve entrar.</small></div>
+      <button class="btn btn-orange" type="submit" id="fbSend">Enviar feedback</button>
+      <p class="fb-msg" id="fbMsgStatus" role="status" aria-live="polite"></p>
+    </form>
+    <iframe name="fbFrame" id="fbFrame" title="Envio do feedback" hidden></iframe>
+  </div>
+</div>
+<style>
+.rv-banner{position:sticky;top:0;z-index:70;background:var(--ink);color:#fff;text-align:center;font-size:.9rem;padding:8px 16px}
+.rv-banner button{background:none;border:0;color:var(--laranja-2);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:4px}
+header.site{top:36px}
+.fb-fab{position:fixed;right:22px;bottom:96px;z-index:85;display:flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border-radius:999px;border:0;background:var(--laranja);color:var(--ink);font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:.82rem;letter-spacing:.04em;cursor:pointer;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);animation:fbPulse 2.4s ease-in-out 3}
+@keyframes fbPulse{50%{transform:scale(1.06)}}
+.fb-modal{position:fixed;inset:0;z-index:300;background:rgba(10,10,10,.6);display:flex;align-items:center;justify-content:center;padding:20px}
+.fb-modal[hidden]{display:none}
+.fb-card{position:relative;background:#fff;border-radius:22px;padding:32px;width:min(560px,100%);max-height:92vh;overflow:auto}
+.fb-card h2{font-size:1.6rem;margin-bottom:6px}
+.fb-sub{color:var(--cinza);margin-bottom:18px}
+.fb-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:var(--areia);font-size:1.6rem;cursor:pointer}
+.fb-hint{color:var(--cinza);font-size:.82rem}
+.fb-msg{margin-top:12px;font-weight:700;min-height:1.5em}
+.fab-top{bottom:160px}
+</style>
+<script>
+(function(){
+  const m=document.getElementById('fbModal'), f=document.getElementById('fbForm'), st=document.getElementById('fbMsgStatus'), btn=document.getElementById('fbSend');
+  let sending=false, last;
+  function open(){last=document.activeElement;const v=document.querySelector('.view.on');if(v){const o=f.aba.querySelector('option[value="'+v.dataset.view+'"]');if(o)f.aba.value=v.dataset.view}m.hidden=false;f.nome.focus()}
+  function close(){m.hidden=true;last&&last.focus()}
+  document.getElementById('fbOpen').onclick=open;document.querySelector('.rv-open-inline').onclick=open;document.getElementById('fbClose').onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close()});addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)close()});
+  f.addEventListener('submit',e=>{
+    if(f._honey.value){e.preventDefault();return}
+    if(!f.nome.value.trim()||!f.comentario.value.trim()){e.preventDefault();st.textContent='Preencha seu nome e o comentário.';st.style.color='#A8410F';return}
+    const files=f.attachment.files;let tot=0;for(const x of files)tot+=x.size;
+    if(tot>10*1024*1024){e.preventDefault();st.textContent='As fotos passam de 10 MB. Envie menos fotos por vez.';st.style.color='#A8410F';return}
+    document.getElementById('fbSubject').value='Feedback site Academia da Rua · '+f.aba.options[f.aba.selectedIndex].text+' · '+f.nome.value.trim();
+    sending=true;btn.disabled=true;st.style.color='inherit';st.textContent='Enviando…';
+  });
+  document.getElementById('fbFrame').addEventListener('load',()=>{if(!sending)return;sending=false;btn.disabled=false;st.style.color='#1f7a45';st.textContent='Enviado! Obrigado. Pode mandar outro comentário quando quiser.';const n=f.nome.value;f.reset();f.nome.value=n});
+})();
+</script>
+</body>
+</html>
